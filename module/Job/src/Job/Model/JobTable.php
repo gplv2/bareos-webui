@@ -289,7 +289,7 @@ class JobTable implements ServiceLocatorAwareInterface
 			$bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
 		);
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
 			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
 		}
 		else {
@@ -354,7 +354,7 @@ class JobTable implements ServiceLocatorAwareInterface
                         $bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
 		);
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
 			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
 		}
 		else {
