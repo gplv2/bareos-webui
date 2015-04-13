@@ -40,7 +40,7 @@ class StatisticsController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] == true) {
+		if($_SESSION['bareos']['authenticated'] === true) {
 				return new ViewModel(
 					  array(
 
