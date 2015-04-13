@@ -63,7 +63,7 @@ class FilesetTable implements ServiceLocatorAwareInterface
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("FileSet"));
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
                         $select->order($bsqlch->strdbcompat($order_by) . " " . $order);
                 }
                 else {

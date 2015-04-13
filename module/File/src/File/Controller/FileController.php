@@ -12,7 +12,7 @@ class FileController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['user']['authenticated'] == true) {
+		if($_SESSION['user']['authenticated'] === true) {
 				$paginator = $this->getFileTable()->fetchAll(true);
 				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
 				$paginator->setItemCountPerPage(15);
@@ -31,7 +31,7 @@ class FileController extends AbstractActionController
 
 	public function jobidAction()
 	{
-		if($_SESSION['user']['authenticated'] == true) {
+		if($_SESSION['user']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 
 				if (!$id) {

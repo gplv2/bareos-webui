@@ -35,7 +35,7 @@ class DashboardController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] == true) {
+		if($_SESSION['bareos']['authenticated'] === true) {
 			return new ViewModel(
 				array(
 					'lastSuccessfulJobs' => $this->getJobTable()->getLast24HoursSuccessfulJobs(),
