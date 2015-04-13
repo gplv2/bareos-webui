@@ -40,7 +40,7 @@ class ClientTable implements ServiceLocatorAwareInterface
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Client"));
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
                         $select->order($bsqlch->strdbcompat($order_by) . " " . $order);
                 }
                 else {

@@ -39,7 +39,7 @@ class LogTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
                 $select = new Select($bsqlch->strdbcompat("Log"));
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
                         $select->order($bsqlch->strdbcompat($order_by) . " " . $order);
                 }
 		else {
