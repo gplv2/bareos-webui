@@ -33,29 +33,28 @@ use Zend\View\Helper\AbstractHelper;
 class HumanReadableTimeperiod extends AbstractHelper
 {
 
-    protected $result;
+	protected $result;
 
-    /**
-     * A function for making timeperiods human readable
-     * @method
-     * @return string
-     * @param
-     * @param
-     */
-    public function __invoke($time, $format="short")
-    {
+	/**
+	 * A function for making timeperiods human readable
+	 * @method
+	 * @return string
+	 * @param
+	 * @param
+	 */
+	public function __invoke($time, $format="short")
+	{
 
 	if($time == "0000-00-00 00:00:00" || empty($time)) {
 		return $this->result = "never";
-	}
-	else {
+	} else {
 
 		$this->result = "-";
 		$dateTime = date_create($time);
 		$timestamp = date_format($dateTime, 'U');
 		$seconds = time() - $timestamp;
 
-		if($format == "short") {
+		if ($format == "short") {
 
 			$units = array(
 				'y' => $seconds / 31556926 % 12,
@@ -66,8 +65,8 @@ class HumanReadableTimeperiod extends AbstractHelper
 				's' => $seconds % 60
 			);
 
-			foreach($units as $key => $value) {
-				if($value > 0) {
+			foreach ($units as $key => $value) {
+				if ($value > 0) {
 					$res[] = $value . $key;
 				}
 			}
@@ -75,7 +74,7 @@ class HumanReadableTimeperiod extends AbstractHelper
 			$this->result = join(' ', $res) . " ago";
 
 		}
-		elseif($format == "long") {
+		elseif ($format == "long") {
 
 			$units = array(
 				'Year(s)' => $seconds / 31556926 % 12,
@@ -86,8 +85,8 @@ class HumanReadableTimeperiod extends AbstractHelper
 				'Second(s)' => $seconds % 60
 			);
 
-			foreach($units as $key => $value) {
-				if($value > 0) {
+			foreach ($units as $key => $value) {
+				if ($value > 0) {
 					$res[] = $value . $key;
 				}
 			}
@@ -95,28 +94,28 @@ class HumanReadableTimeperiod extends AbstractHelper
 			$this->result = join(' ', $res) . " ago";
 
 		}
-		elseif($format == "fuzzy") {
+		elseif ($format == "fuzzy") {
 
 			$t1 = explode("-", $time);
 			$t2 = explode("-", date("Y-m-d", time("NOW")));
 
-			$d1 = mktime(0, 0, 0, (int)$t1[1],(int)$t1[2],(int)$t1[0]);
-			$d2 = mktime(0, 0, 0, (int)$t2[1],(int)$t2[2],(int)$t2[0]);
+			$d1 = mktime(0, 0, 0, (int) $t1[1], (int) $t1[2], (int) $t1[0]);
+			$d2 = mktime(0, 0, 0, (int) $t2[1], (int) $t2[2], (int) $t2[0]);
 
  			$interval = ($d2 - $d1) / (3600 * 24);
 
-			if($interval < 1) {
+			if ($interval < 1) {
 				return $this->result = "today";
 			}
-			elseif($interval <= 31 && $interval >= 1) {
+			elseif ($interval <= 31 && $interval >= 1) {
 				$interval = round($interval, 0, PHP_ROUND_HALF_UP);
 				$this->result = "about " . $interval . " day(s) ago";
 			}
-			elseif($interval >= 31 && $interval <= 365) {
+			elseif ($interval >= 31 && $interval <= 365) {
 				$interval = round($interval / 31, 0, PHP_ROUND_HALF_UP);
 				$this->result = "about " . $interval . " month ago";
 			}
-			elseif($interval > 365) {
+			elseif ($interval > 365) {
 				$interval = round($interval / 365, 1, PHP_ROUND_HALF_UP);
 				$this->result = "about " . $interval . " year(s) ago";
 			}
@@ -127,7 +126,7 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 		}
 
-    }
+	}
 
 }
 

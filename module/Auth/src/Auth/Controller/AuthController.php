@@ -44,7 +44,7 @@ class AuthController extends AbstractActionController
 	public function loginAction()
 	{
 
-		if(isset($_SESSION['bareos']['authenticated']) && $_SESSION['bareos']['authenticated']) {
+		if (isset($_SESSION['bareos']['authenticated']) && $_SESSION['bareos']['authenticated']) {
 			return $this->redirect()->toRoute('dashboard', array('action' => 'index'));
 		}
 
@@ -57,13 +57,13 @@ class AuthController extends AbstractActionController
 
 		$request = $this->getRequest();
 
-		if($request->isPost()) {
+		if ($request->isPost()) {
 
 			$auth = new Auth();
 			$form->setInputFilter($auth->getInputFilter());
 			$form->setData($request->getPost());
 
-			if($form->isValid()) {
+			if ($form->isValid()) {
 
 				$director = $form->getInputFilter()->getValue('director');
 				$username = $form->getInputFilter()->getValue('consolename');
@@ -74,7 +74,7 @@ class AuthController extends AbstractActionController
 				$this->director->set_config($config['directors'][$director]);
 				$this->director->set_user_credentials($username, $password);
 
-				if($this->director->auth($username, $password)) {
+				if ($this->director->auth($username, $password)) {
 					$_SESSION['bareos']['director'] = $director;
 					$_SESSION['bareos']['username'] = $username;
 					$_SESSION['bareos']['password'] = $password;
@@ -102,10 +102,10 @@ class AuthController extends AbstractActionController
 				session_destroy();
 
 				return new ViewModel(
-                                                array(
-                                                        'form' => $form,
-                                                        'err_msg' => $err_msg,
-                                                )
+												array(
+														'form' => $form,
+														'err_msg' => $err_msg,
+												)
 				);
 
 			}

@@ -35,7 +35,7 @@ class DashboardController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 			return new ViewModel(
 				array(
 					'lastSuccessfulJobs' => $this->getJobTable()->getLast24HoursSuccessfulJobs(),
@@ -44,15 +44,14 @@ class DashboardController extends AbstractActionController
 					'runningJobs' => $this->getJobTable()->getRunningJobs(),
 				)
 			);
-		}
-		else {
+		} else {
 			return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getJobTable()
 	{
-		if(!$this->jobTable)
+		if (!$this->jobTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->jobTable = $sm->get('Job\Model\JobTable');

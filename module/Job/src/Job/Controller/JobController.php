@@ -39,12 +39,12 @@ class JobController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getJobTable()->fetchAll(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -56,15 +56,14 @@ class JobController extends AbstractActionController
 						'allJobs' => $this->getJobTable()->fetchAll(),
 						)
 					);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				if (!$id) {
 					return $this->redirect()->toRoute('job');
@@ -74,20 +73,19 @@ class JobController extends AbstractActionController
 						'job' => $this->getJobTable()->getJob($id),
 						'log' => $this->getLogTable()->getLogsByJob($id),
 					));
-		}
-		else {
+		} else {
 		return $this->redirect()->toRoute('auth', array('action' => 'login'));
-        }
+		}
 	}
 
 	public function runningAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getJobTable()->getRunningJobs(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -99,20 +97,19 @@ class JobController extends AbstractActionController
 							'runningJobs' => $this->getJobTable()->getRunningJobs()
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function waitingAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getJobTable()->getWaitingJobs(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -124,20 +121,19 @@ class JobController extends AbstractActionController
 							'waitingJobs' => $this->getJobTable()->getWaitingJobs()
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function unsuccessfulAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getJobTable()->getLast24HoursUnsuccessfulJobs(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -149,20 +145,19 @@ class JobController extends AbstractActionController
 						'lastUnsuccessfulJobs' => $this->getJobTable()->getLast24HoursUnsuccessfulJobs(),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function successfulAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getJobTable()->getLast24HoursSuccessfulJobs(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -174,15 +169,14 @@ class JobController extends AbstractActionController
 						'lastSuccessfulJobs' => $this->getJobTable()->getLast24HoursSuccessfulJobs(),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function rerunAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
 				$cmd = "rerun jobid=" . $jobid . " yes";
 				$this->director = $this->getServiceLocator()->get('director');
@@ -192,15 +186,14 @@ class JobController extends AbstractActionController
 							'jobid' => $jobid,
 						)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function cancelAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
 				$cmd = "cancel jobid=" . $jobid . " yes";
 				$this->director = $this->getServiceLocator()->get('director');
@@ -209,14 +202,13 @@ class JobController extends AbstractActionController
 							'bconsoleOutput' => $this->director->send_command($cmd)
 						)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getJobTable()
-    {
+	{
 		if(!$this->jobTable)
 		{
 			$sm = $this->getServiceLocator();
@@ -227,7 +219,7 @@ class JobController extends AbstractActionController
 
 	public function getLogTable()
 	{
-		if(!$this->logTable)
+		if (!$this->logTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->logTable = $sm->get('Log\Model\LogTable');

@@ -14,12 +14,12 @@ class ClientController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'ClientId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getClientTable()->fetchAll(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -30,17 +30,16 @@ class ClientController extends AbstractActionController
 										'limit' => $limit,
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
-				if(!$id) {
+				if (!$id) {
 					return $this->redirect()->toRoute('client');
 				}
 
@@ -55,15 +54,14 @@ class ClientController extends AbstractActionController
 					  'bconsoleOutput' => $this->director->send_command($cmd),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getClientTable()
 	{
-		if(!$this->clientTable) {
+		if (!$this->clientTable) {
 			$sm = $this->getServiceLocator();
 			$this->clientTable = $sm->get('Client\Model\ClientTable');
 		}
@@ -72,7 +70,7 @@ class ClientController extends AbstractActionController
 
 	public function getJobTable()
 	{
-		if(!$this->jobTable) {
+		if (!$this->jobTable) {
 			$sm = $this->getServiceLocator();
 			$this->jobTable = $sm->get('Job\Model\JobTable');
 		}

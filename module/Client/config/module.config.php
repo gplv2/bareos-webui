@@ -18,8 +18,8 @@ return array(
 						'action' => '(?!\blimit\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
 						'id' => '[0-9]+',
 						'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                'order' => 'ASC|DESC',
-                                                'limit' => '[0-9]+',
+												'order' => 'ASC|DESC',
+												'limit' => '[0-9]+',
 					),
 					'defaults' => array(
 						'controller' => 'Client\Controller\Client',

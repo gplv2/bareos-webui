@@ -35,12 +35,12 @@ class MediaController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'MediaId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getMediaTable()->fetchAll(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -51,15 +51,14 @@ class MediaController extends AbstractActionController
 										'limit' => $limit,
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 			$id = (int) $this->params()->fromRoute('id', 0);
 			if (!$id) {
 			return $this->redirect()->toRoute('media');
@@ -68,15 +67,14 @@ class MediaController extends AbstractActionController
 			return new ViewModel(array(
 				'media' => $this->getMediaTable()->getMedia($id),
 			));
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getMediaTable()
 	{
-		if(!$this->mediaTable) {
+		if (!$this->mediaTable) {
 			$sm = $this->getServiceLocator();
 			$this->mediaTable = $sm->get('Media\Model\MediaTable');
 		}

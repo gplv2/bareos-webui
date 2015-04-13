@@ -40,7 +40,7 @@ class StatisticsController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				return new ViewModel(
 					  array(
 
@@ -70,8 +70,8 @@ class StatisticsController extends AbstractActionController
 				);
 		}
 		else {
-                return $this->redirect()->toRoute('auth', array('action' => 'login'));
-        }
+				return $this->redirect()->toRoute('auth', array('action' => 'login'));
+		}
 
 	}
 
@@ -112,7 +112,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getJobTable()
 	{
-		if(!$this->jobTable)
+		if (!$this->jobTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->jobTable = $sm->get('Job\Model\JobTable');
@@ -122,7 +122,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getClientTable()
 	{
-		if(!$this->clientTable)
+		if (!$this->clientTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->clientTable = $sm->get('Client\Model\ClientTable');
@@ -132,7 +132,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getPoolTable()
 	{
-		if(!$this->poolTable)
+		if (!$this->poolTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->poolTable = $sm->get('Pool\Model\PoolTable');
@@ -142,7 +142,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getMediaTable()
 	{
-		if(!$this->mediaTable)
+		if (!$this->mediaTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->mediaTable = $sm->get('Media\Model\MediaTable');
@@ -152,7 +152,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getFileTable()
 	{
-		if(!$this->fileTable)
+		if (!$this->fileTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->fileTable = $sm->get('File\Model\FileTable');
@@ -162,7 +162,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getLogTable()
 	{
-		if(!$this->logTable)
+		if (!$this->logTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->logTable = $sm->get('Log\Model\LogTable');
@@ -172,7 +172,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getFilesetTable()
 	{
-		if(!$this->filesetTable)
+		if (!$this->filesetTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->filesetTable = $sm->get('Fileset\Model\FilesetTable');

@@ -22,17 +22,17 @@ class ClientTable implements ServiceLocatorAwareInterface
 	}
 
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-                $this->serviceLocator = $serviceLocator;
-        }
+				$this->serviceLocator = $serviceLocator;
+		}
 
-        public function getServiceLocator() {
-                return $this->serviceLocator;
-        }
+		public function getServiceLocator() {
+				return $this->serviceLocator;
+		}
 
-        public function getDbDriverConfig() {
-                $config = $this->getServiceLocator()->get('Config');
-                return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
-        }
+		public function getDbDriverConfig() {
+				$config = $this->getServiceLocator()->get('Config');
+				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
+		}
 
 	public function fetchAll($paginated=false, $order_by=null, $order=null)
 	{
@@ -41,11 +41,11 @@ class ClientTable implements ServiceLocatorAwareInterface
 		$select->from($bsqlch->strdbcompat("Client"));
 
 		if($order_by !== null && $order !== null) {
-                        $select->order($bsqlch->strdbcompat($order_by) . " " . $order);
-                }
-                else {
-                        $select->order($bsqlch->strdbcompat("ClientId") . " DESC");
-                }
+						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+				}
+				else {
+						$select->order($bsqlch->strdbcompat("ClientId") . " DESC");
+				}
 
 		if($paginated) {
 			$resultSetPrototype = new ResultSet();
@@ -57,8 +57,7 @@ class ClientTable implements ServiceLocatorAwareInterface
 					);
 			$paginator = new Paginator($paginatorAdapter);
 			return $paginator;
-		}
-		else {
+		} else {
 			$resultSet = $this->tableGateway->selectWith($select);
 			return $resultSet;
 		}
@@ -76,7 +75,7 @@ class ClientTable implements ServiceLocatorAwareInterface
 		$rowset = $this->tableGateway->selectWith($select);
 		$row = $rowset->current();
 		
-		if(!$row) {
+		if (!$row) {
 			throw new \Exception("Could not find row $id");
 		}
 		

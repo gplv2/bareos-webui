@@ -29,23 +29,23 @@ use Zend\View\Helper\AbstractHelper;
 
 class StatusGlyphicons extends AbstractHelper
 {
-    public function __invoke($status)
-    {
-
-	switch($status)
+	public function __invoke($status)
 	{
-	    case '0':
-	      $output = '<div class="text-success"><span class="glyphicon glyphicon-ok"></span></div>';
-	      break;
-	    case '-1':
-	      $output = '<div class="text-danger"><span class="glyphicon glyphicon-remove"></span></div>';
-	      break;
-	    default:
-	      $output = $status;
-	      break;
+
+	switch ($status)
+	{
+		case '0':
+		  $output = '<div class="text-success"><span class="glyphicon glyphicon-ok"></span></div>';
+		  break;
+		case '-1':
+		  $output = '<div class="text-danger"><span class="glyphicon glyphicon-remove"></span></div>';
+		  break;
+		default:
+		  $output = $status;
+		  break;
 	}
 	
 	return $output;
 	
-    }
+	}
 }

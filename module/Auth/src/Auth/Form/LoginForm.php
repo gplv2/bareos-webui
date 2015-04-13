@@ -32,7 +32,7 @@ class LoginForm extends Form
 
 	protected $config;
 
-	public function __construct($config=null, $name=null)
+	public function __construct($config = null, $name = null)
 	{
 
 		$this->config = $config;
@@ -91,7 +91,7 @@ class LoginForm extends Form
 	{
 		$selectData = array();
 
-		foreach($this->config as $dird) {
+		foreach ($this->config as $dird) {
 			$selectData[key($this->config)] = key($this->config);
 			next($this->config);
 		}

@@ -106,34 +106,35 @@ class InstallController extends AbstractActionController
 		return Version::VERSION;
 	}
 
+	/**
+	 * @param string $required
+	 */
 	private function compareVersions($installed, $required)
 	{
-		if(version_compare($installed, $required, '<')) {
+		if (version_compare($installed, $required, '<')) {
 			return -1;
-		}
-		else {
+		} else {
 			return 0;
 		}
 	}
 
 	private function getInstalledPDOExt()
 	{
-		if(extension_loaded('PDO')) {
+		if (extension_loaded('PDO')) {
 			$pdo = "YES";
-                        return $pdo;
-                }
-                else {
+						return $pdo;
+				}
+				else {
 			$pdo = "NO";
-                        return $pdo;
-                }
+						return $pdo;
+				}
 	}
 
 	private function getPDOExtStatus()
 	{
-		if(extension_loaded('PDO')) {
+		if (extension_loaded('PDO')) {
 			return 0;
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
@@ -142,23 +143,23 @@ class InstallController extends AbstractActionController
 	private function getIntlExtStatus()
 	{
 		if(extension_loaded('Intl')) {
-                        return 0;
-                }
-                else {
-                        return -1;
-                }
+						return 0;
+				}
+				else {
+						return -1;
+				}
 	}
 
 	private function getInstalledIntlExt()
 	{
 		if(extension_loaded('Intl')) {
-                        $intl = "YES";
-                        return $intl;
-                }
-                else {
-                        $intl = "NO";
-                        return $intl;
-                }
+						$intl = "YES";
+						return $intl;
+				}
+				else {
+						$intl = "NO";
+						return $intl;
+				}
 	}
 
 	private function getConfiguredDbDriver()
@@ -171,13 +172,12 @@ class InstallController extends AbstractActionController
 
 	private function getDbDriverStatus()
 	{
-		if(self::getConfiguredDbDriver() == "Pdo_Pgsql" ||
+		if (self::getConfiguredDbDriver() == "Pdo_Pgsql" ||
 			self::getConfiguredDbDriver() == "Pdo_Mysql" ||
 			self::getConfiguredDbDriver() == "Mysqli" ||
 			self::getConfiguredDbDriver() == "Pgsql") {
 			return 0;
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
@@ -186,16 +186,15 @@ class InstallController extends AbstractActionController
 	{
 		$config = $this->getServiceLocator()->get('Config');
 		$adapter = array_keys($config['db']['adapters']);
-        $host = $config['db']['adapters'][$adapter[0]]['host'];
-        return $host;
+		$host = $config['db']['adapters'][$adapter[0]]['host'];
+		return $host;
 	}
 
 	private function getDbHostStatus()
 	{
-		if(self::getConfiguredDbHost() != "") {
+		if (self::getConfiguredDbHost() != "") {
 			return 0;
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
@@ -204,18 +203,18 @@ class InstallController extends AbstractActionController
 	{
 		$config = $this->getServiceLocator()->get('Config');
 		$adapter = array_keys($config['db']['adapters']);
-        $user = $config['db']['adapters'][$adapter[0]]['username'];
-        return $user;
+		$user = $config['db']['adapters'][$adapter[0]]['username'];
+		return $user;
 	}
 
 	private function getDbUserStatus()
 	{
 		if(self::getConfiguredDbUser() != "") {
-                        return 0;
-                }
-                else {
-                        return -1;
-                }
+						return 0;
+				}
+				else {
+						return -1;
+				}
 	}
 
 	private function getConfiguredDbPassword()
@@ -223,9 +222,9 @@ class InstallController extends AbstractActionController
 		$config = $this->getServiceLocator()->get('Config');
 		$adapter = array_keys($config['db']['adapters']);
 		$passwd = $config['db']['adapters'][$adapter[0]]['password'];
-		if($passwd != "") {
+		if ($passwd != "") {
 			$passwd = "SET";
-                	return $passwd;
+					return $passwd;
 		}
 		else {
 			$passwd = "NOT SET";
@@ -236,16 +235,16 @@ class InstallController extends AbstractActionController
 	private function getDbPasswordStatus()
 	{
 		if(self::getConfiguredDbPassword() == "SET") {
-                        return 0;
-                }
-                else {
-                        return -1;
-                }
+						return 0;
+				}
+				else {
+						return -1;
+				}
 	}
 
 	private function getDbConnectionStatus()
 	{
-		if(self::getDbDriverStatus() ==  0 &&
+		if (self::getDbDriverStatus() == 0 &&
 			self::getDbHostStatus() == 0 &&
 			self::getDbUserStatus() == 0 &&
 			self::getDbPasswordStatus() == 0
@@ -258,7 +257,7 @@ class InstallController extends AbstractActionController
 					$connection = $dbAdapter->getDriver()->getConnection()->connect();
 					return 0;
 				}
-				catch(\Exception $e) {
+				catch (\Exception $e) {
 					//echo $e->getMessage() . $e->getTraceAsString();
 					return -1;
 				}
@@ -270,7 +269,7 @@ class InstallController extends AbstractActionController
 
 	private function getDbReadAccessStatus()
 	{
-		if(self::getDbConnectionStatus() == 0) {
+		if (self::getDbConnectionStatus() == 0) {
 
 			try {
 				// no beauty, but will work for the moment
@@ -289,14 +288,14 @@ class InstallController extends AbstractActionController
 				$resultSet->initialize($results);
 				$result = $resultSet->toArray();
 				$versionid = $result[0][$bsqlch->strdbcompat("VersionId")];
-				if(is_int($versionid) || $versionid >= 2001) {
+				if (is_int($versionid) || $versionid >= 2001) {
 					return 0;
 				}
 				else {
 					return -1;
 				}
 			}
-			catch(\Exception $e) {
+			catch (\Exception $e) {
 				return -1;
 			}
 		}
@@ -316,11 +315,11 @@ class InstallController extends AbstractActionController
 	private function getDirectorStatus()
 	{
 		if(self::getConfiguredDirector() != "") {
-                        return 0;
-                }
-                else {
-                        return -1;
-                }
+						return 0;
+				}
+				else {
+						return -1;
+				}
 
 	}
 

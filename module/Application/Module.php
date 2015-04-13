@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
+   * Zend Framework (http://framework.zend.com/)
+   *
+   * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+   * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+   * @license   http://framework.zend.com/license/new-bsd New BSD License
+   */
 
 namespace Application;
 
@@ -17,34 +17,37 @@ use Bareos\BSock\BareosBsock;
 
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+	public function onBootstrap(MvcEvent $e)
+	{
+		$eventManager        = $e->getApplication()->getEventManager();
+		$moduleRouteListener = new ModuleRouteListener();
+		$moduleRouteListener->attach($eventManager);
 		$this->initSession($e);
-    }
+	}
 
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
+	public function getConfig()
+	{
+		return include __DIR__ . '/config/module.config.php';
+	}
 
-    public function getAutoloaderConfig()
-    {
-        return array(
-	    'Zend\Loader\ClassMapAutoloader' => array(
-                'application' => __DIR__ . '/autoload_classmap.php',
-            ),
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+	public function getAutoloaderConfig()
+	{
+		return array(
+		'Zend\Loader\ClassMapAutoloader' => array(
+				'application' => __DIR__ . '/autoload_classmap.php',
+			),
+			'Zend\Loader\StandardAutoloader' => array(
+				'namespaces' => array(
+					__NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
 				'Bareos' => __DIR__ .'/../../vendor/Bareos/library/Bareos',
-                ),
-            ),
-        );
-    }
+				),
+			),
+		);
+	}
 
+	/**
+	 * @param MvcEvent $e
+	 */
 	public function initSession($e)
 	{
 		$session = $e->getApplication()->getServiceManager()->get('Zend\Session\SessionManager');
@@ -73,21 +76,21 @@ class Module
 			$sessionConfig = $config['session'];
 
 			if (isset($sessionConfig['validators'])) {
-                $chain   = $session->getValidatorChain();
-                foreach ($sessionConfig['validators'] as $validator) {
-                    switch ($validator) {
-                        case 'Zend\Session\Validator\HttpUserAgent':
-                            $validator = new $validator($container->httpUserAgent);
-                            break;
-                        case 'Zend\Session\Validator\RemoteAddr':
-                            $validator  = new $validator($container->remoteAddr);
-                            break;
-                        default:
-                            $validator = new $validator();
-                    }
-                    $chain->attach('session.validate', array($validator, 'isValid'));
-                }
-            }
+				$chain   = $session->getValidatorChain();
+				foreach ($sessionConfig['validators'] as $validator) {
+					switch ($validator) {
+						case 'Zend\Session\Validator\HttpUserAgent':
+							$validator = new $validator($container->httpUserAgent);
+							break;
+						case 'Zend\Session\Validator\RemoteAddr':
+							$validator  = new $validator($container->remoteAddr);
+							break;
+						default:
+							$validator = new $validator();
+					}
+					$chain->attach('session.validate', array($validator, 'isValid'));
+				}
+			}
 
 		}
 
@@ -97,7 +100,7 @@ class Module
 	{
 		return array(
 			'factories' => array(
-				'Zend\Session\SessionManager' => function ($sm) {
+				'Zend\Session\SessionManager' => function($sm) {
 					$config = $sm->get('config');
 
 					if (isset($config['session'])) {
@@ -106,26 +109,26 @@ class Module
 
 						$sessionConfig = null;
 
-						if(isset($session['config'])) {
-							$class = isset($session['config']['class'])  ? $session['config']['class'] : 'Zend\Session\Config\SessionConfig';
+						if (isset($session['config'])) {
+							$class = isset($session['config']['class']) ? $session['config']['class'] : 'Zend\Session\Config\SessionConfig';
 							$options = isset($session['config']['options']) ? $session['config']['options'] : array();
-                            $sessionConfig = new $class();
-                            $sessionConfig->setOptions($options);
+							$sessionConfig = new $class();
+							$sessionConfig->setOptions($options);
 						}
 
 						$sessionStorage = null;
 
 						if (isset($session['storage'])) {
-                            $class = $session['storage'];
-                            $sessionStorage = new $class();
-                        }
+							$class = $session['storage'];
+							$sessionStorage = new $class();
+						}
 
 						$sessionSaveHandler = null;
 
 						if (isset($session['save_handler'])) {
-                            // class should be fetched from service manager since it will require constructor arguments
-                            $sessionSaveHandler = $sm->get($session['save_handler']);
-                        }
+							// class should be fetched from service manager since it will require constructor arguments
+							$sessionSaveHandler = $sm->get($session['save_handler']);
+						}
 
 						$sessionManager = new SessionManager($sessionConfig, $sessionStorage, $sessionSaveHandler);
 

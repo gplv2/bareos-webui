@@ -45,17 +45,17 @@ class FilesetTable implements ServiceLocatorAwareInterface
 	}
 
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-                $this->serviceLocator = $serviceLocator;
-        }
+				$this->serviceLocator = $serviceLocator;
+		}
 
-        public function getServiceLocator() {
-                return $this->serviceLocator;
-        }
+		public function getServiceLocator() {
+				return $this->serviceLocator;
+		}
 
-        public function getDbDriverConfig() {
-                $config = $this->getServiceLocator()->get('Config');
-                return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
-        }
+		public function getDbDriverConfig() {
+				$config = $this->getServiceLocator()->get('Config');
+				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
+		}
 
 	public function fetchAll($paginated=false, $order_by=null, $order=null)
 	{
@@ -64,11 +64,11 @@ class FilesetTable implements ServiceLocatorAwareInterface
 		$select->from($bsqlch->strdbcompat("FileSet"));
 
 		if($order_by !== null && $order !== null) {
-                        $select->order($bsqlch->strdbcompat($order_by) . " " . $order);
-                }
-                else {
-                        $select->order($bsqlch->strdbcompat("FileSetId") . " DESC");
-                }
+						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+				}
+				else {
+						$select->order($bsqlch->strdbcompat("FileSetId") . " DESC");
+				}
 
 		if($paginated) {
 			$resultSetPrototype = new ResultSet();
@@ -80,8 +80,7 @@ class FilesetTable implements ServiceLocatorAwareInterface
 					);
 			$paginator = new Paginator($paginatorAdapter);
 			return $paginator;
-		}
-		else {
+		} else {
 			$resultSet = $this->tableGateway->selectWith($select);
 			return $resultSet;
 		}
@@ -94,7 +93,7 @@ class FilesetTable implements ServiceLocatorAwareInterface
 		$rowset = $this->tableGateway->select(array(
 			$bsqlch->strdbcompat("FileSetId") => $id));
 		$row = $rowset->current();
-		if(!$row) {
+		if (!$row) {
 			throw new \Exception("Could not find row $id");
 		}
 		return $row;
@@ -103,16 +102,16 @@ class FilesetTable implements ServiceLocatorAwareInterface
 	public function getFilesetHistory($id)
 	{
 		$fset = $this->getFileSet($id);
-                $bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
-                $select = new Select();
-                $select->from($bsqlch->strdbcompat("FileSet"));
-                $select->where($bsqlch->strdbcompat("FileSet") . " = '". $fset->fileset . "'");
-                $select->order($bsqlch->strdbcompat("CreateTime") . " DESC");
+				$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
+				$select = new Select();
+				$select->from($bsqlch->strdbcompat("FileSet"));
+				$select->where($bsqlch->strdbcompat("FileSet") . " = '". $fset->fileset . "'");
+				$select->order($bsqlch->strdbcompat("CreateTime") . " DESC");
 
-                $resultSet = $this->tableGateway->selectWith($select);
+				$resultSet = $this->tableGateway->selectWith($select);
 
-                return $resultSet;
-        }
+				return $resultSet;
+		}
 
 	public function getFilesetNum()
 	{

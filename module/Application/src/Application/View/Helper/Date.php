@@ -33,37 +33,37 @@ use Zend\View\Helper\AbstractHelper;
 class Date extends AbstractHelper
 {
 
-    public function __invoke($dateString, $mode = 'iso8601')
-    {
-        if ($dateString == '0000-00-00 00:00:00' || $dateString == '') {
-            return '-';
-        }
+	public function __invoke($dateString, $mode = 'iso8601')
+	{
+		if ($dateString == '0000-00-00 00:00:00' || $dateString == '') {
+			return '-';
+		}
         
-        switch ($mode) {
-	    case 'full':
+		switch ($mode) {
+		case 'full':
 		$dateType = IntlDateFormatter::FULL;
 		$timeType = IntlDateFormatter::FULL;
 		break;
-            case 'long':
-                $dateType = IntlDateFormatter::LONG;
-                $timeType = IntlDateFormatter::LONG;
-                break;
-            case 'short':
-                $dateType = IntlDateFormatter::SHORT;
-                $timeType = IntlDateFormatter::SHORT;
-                break;
-            case 'medium':
-                $dateType = IntlDateFormatter::MEDIUM;
-                $timeType = IntlDateFormatter::MEDIUM;
-                break;
-	    default:
-	    case 'iso8601':
+			case 'long':
+				$dateType = IntlDateFormatter::LONG;
+				$timeType = IntlDateFormatter::LONG;
+				break;
+			case 'short':
+				$dateType = IntlDateFormatter::SHORT;
+				$timeType = IntlDateFormatter::SHORT;
+				break;
+			case 'medium':
+				$dateType = IntlDateFormatter::MEDIUM;
+				$timeType = IntlDateFormatter::MEDIUM;
+				break;
+		default:
+		case 'iso8601':
 		return $dateString;
-        }
+		}
         
-        $dateTime = new DateTime($dateString);
+		$dateTime = new DateTime($dateString);
         
-        return $this->getView()->dateFormat($dateTime, $dateType, $timeType);
-    }
+		return $this->getView()->dateFormat($dateTime, $dateType, $timeType);
+	}
     
 }

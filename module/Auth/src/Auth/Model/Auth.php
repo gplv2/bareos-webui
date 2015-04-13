@@ -57,18 +57,18 @@ class Auth implements InputFilterAwareInterface
 
 			$inputFilter->add(array(
 				'name' => 'password',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 1,
-                            'max' => 64,
-                        ),
-                    ),
-                ),
+				'required' => true,
+				'filters' => array(),
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'options' => array(
+							'encoding' => 'UTF-8',
+							'min' => 1,
+							'max' => 64,
+						),
+					),
+				),
 			));
 
 			$this->inputFilter = $inputFilter;
