@@ -3,7 +3,7 @@ language: php
 php:
   - 5.3
   - 5.4
-  - 5.5
+  - 5.6
   - hhvm
 
 env:
@@ -23,7 +23,7 @@ branches:
   only:
     - master
 
-script:
+script: phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml'
 
 after_script:
 
@@ -33,4 +33,6 @@ matrix:
   fast_finish: true
 
 notifications:
-  email: false
+    email: false
+    on_success: never
+    on_failure: always
