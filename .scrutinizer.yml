@@ -2,7 +2,7 @@ build:
     tests:
         override:
             -
-                command: "phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml'"
+                command: "phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml' public/"
                 coverage:
                     file: 'clover.xml'
                     format: 'php-clover'
