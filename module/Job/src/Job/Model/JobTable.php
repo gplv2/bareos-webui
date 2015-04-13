@@ -88,7 +88,7 @@ class JobTable implements ServiceLocatorAwareInterface
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 
-		if($order_by != null && $order != null) {
+		if($order_by !== null && $order !== null) {
 			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
 		}
 		else {
