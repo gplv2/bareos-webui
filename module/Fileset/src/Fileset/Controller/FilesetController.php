@@ -36,12 +36,12 @@ class FilesetController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'FileSetId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getFilesetTable()->fetchAll(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -52,15 +52,14 @@ class FilesetController extends AbstractActionController
 											'limit' => $limit,
 						)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				$fset = $this->getFilesetTable()->getFileSet($id);
 				$cmd = 'show fileset="' . $fset->fileset . '"';
@@ -77,15 +76,14 @@ class FilesetController extends AbstractActionController
 						'configuration' => $this->director->send_command($cmd),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getFilesetTable()
 	{
-		if(!$this->filesetTable) {
+		if (!$this->filesetTable) {
 			$sm = $this->getServiceLocator();
 			$this->filesetTable = $sm->get('Fileset\Model\FilesetTable');
 		}

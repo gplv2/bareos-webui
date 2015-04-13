@@ -37,70 +37,65 @@ class DirectorController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$cmd = "status director";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'directorOutput' => $this->director->send_command($cmd),
 				));
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function messagesAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$cmd = "messages";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'directorOutput' => $this->director->send_command($cmd),
 					));
-				}
-		else {
+				} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function scheduleAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$cmd = "show schedule";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'directorOutput' => $this->director->send_command($cmd),
 					));
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function schedulerstatusAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$cmd = "status scheduler";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'directorOutput' => $this->director->send_command($cmd),
 					));
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function versionAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$cmd = "version";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'directorOutput' => $this->director->send_command($cmd),
 					));
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}

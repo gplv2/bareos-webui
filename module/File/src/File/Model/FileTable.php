@@ -46,21 +46,21 @@ class FileTable implements ServiceLocatorAwareInterface
 	}
 
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-                $this->serviceLocator = $serviceLocator;
-        }
+				$this->serviceLocator = $serviceLocator;
+		}
 
-        public function getServiceLocator() {
-                return $this->serviceLocator;
-        }
+		public function getServiceLocator() {
+				return $this->serviceLocator;
+		}
 
-        public function getDbDriverConfig() {
-                $config = $this->getServiceLocator()->get('Config');
-                return $config['db']['driver'];
-        }
+		public function getDbDriverConfig() {
+				$config = $this->getServiceLocator()->get('Config');
+				return $config['db']['driver'];
+		}
 
-	public function fetchAll($paginated=false) 
+	public function fetchAll($paginated = false) 
 	{
-		if($paginated) {
+		if ($paginated) {
 			$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 			$select = new Select($bsqlch->strdbcompat("File"));
 			$select->order($bsqlch->strdbcompat("FileId") . " DESC");
@@ -84,7 +84,7 @@ class FileTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$rowset = $this->tableGateway->select(array($bsqlch->strdbcompat("FileId") => $id));
 		$row = $rowset->current();
-		if(!$row) {
+		if (!$row) {
 			throw new \Exception("Could not find row $id");
 		}
 		return $row;
@@ -94,7 +94,7 @@ class FileTable implements ServiceLocatorAwareInterface
 	{
 		$paginated = true;
 		$jobid = (int) $id;
-		if($paginated) {
+		if ($paginated) {
 			$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 			$select = new Select();
 			$select->from($bsqlch->strdbcompat("File"));
@@ -102,7 +102,7 @@ class FileTable implements ServiceLocatorAwareInterface
 				$bsqlch->strdbcompat("Filename"), 
 				$bsqlch->strdbcompat("File.FilenameId = Filename.FilenameId")
 			);
-			$select->where($bsqlch->strdbcompat("File.JobId") .  " = '" . $jobid . "'");
+			$select->where($bsqlch->strdbcompat("File.JobId") . " = '" . $jobid . "'");
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new File());
 			$paginatorAdapter = new DbSelect(

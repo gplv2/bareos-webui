@@ -47,31 +47,30 @@ class MediaTable implements ServiceLocatorAwareInterface
 	}
 
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-                $this->serviceLocator = $serviceLocator;
-        }
+				$this->serviceLocator = $serviceLocator;
+		}
 
-        public function getServiceLocator() {
-                return $this->serviceLocator;
-        }
+		public function getServiceLocator() {
+				return $this->serviceLocator;
+		}
 
-        public function getDbDriverConfig() {
-                $config = $this->getServiceLocator()->get('Config');
-                return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
-        }
+		public function getDbDriverConfig() {
+				$config = $this->getServiceLocator()->get('Config');
+				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
+		}
 
-	public function fetchAll($paginated=false, $order_by=null, $order=null)
+	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select($bsqlch->strdbcompat("Media"));
 
-		if($order_by !== null && $order !== null) {
+		if ($order_by !== null && $order !== null) {
 			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
-		}
-		else {
+		} else {
 			$select->order($bsqlch->strdbcompat("MediaId") . " ASC");
 		}
 
-		if($paginated) {
+		if ($paginated) {
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new Media());
 			$paginatorAdapter = new DbSelect(
@@ -81,8 +80,7 @@ class MediaTable implements ServiceLocatorAwareInterface
 					);
 			$paginator = new Paginator($paginatorAdapter);
 			return $paginator;
-		}
-		else {
+		} else {
 			$resultSet = $this->tableGateway->selectWith($select);
 			return $resultSet;
 		}

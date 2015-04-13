@@ -36,24 +36,24 @@ class Bytes extends AbstractHelper
 	protected $bsize;
 
 	/**
-     	 * @method 
-     	 * @return string 
-     	 */
-    	public function __invoke($bytes)
-    	{
+	 * @method 
+	 * @return string 
+	 */
+		public function __invoke($bytes)
+		{
 
 		$units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB');
 		$this->bsize = "0.00 B";
 
-		if($bytes > 0)
+		if ($bytes > 0)
 		{
 			$result = log($bytes) / log(1000);
-			$this->bsize = round(pow(1000, $result - ($tmp = floor($result))), 2)." ".$units[$tmp];
+			$this->bsize = round(pow(1000, $result - ($tmp = floor($result))), 2) . " " . $units[$tmp];
 		}
 
 		return $this->bsize;
 
-    	}
+		}
 
 }
 

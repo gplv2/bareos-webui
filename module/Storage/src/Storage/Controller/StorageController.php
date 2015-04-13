@@ -37,12 +37,12 @@ class StorageController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'StorageId';
 						$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 						$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 						$paginator = $this->getStorageTable()->fetchAll(true, $order_by, $order);
-						$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+						$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 						$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -54,17 +54,16 @@ class StorageController extends AbstractActionController
 						'storages' => $this->getStorageTable()->fetchAll(),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
-				if(!$id) {
+				if (!$id) {
 					return $this->redirect()->toRoute('storage');
 				}
 				$result = $this->getStorageTable()->getStorage($id);
@@ -74,17 +73,16 @@ class StorageController extends AbstractActionController
 						'bconsoleOutput' => $this->director->send_command($cmd),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function autochangerAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
-				if(!$id) {
+				if (!$id) {
 					return $this->redirect()->toRoute('storage');
 				}
 				$result = $this->getStorageTable()->getStorage($id);
@@ -94,15 +92,14 @@ class StorageController extends AbstractActionController
 						'bconsoleOutput' => $this->director->send_command($cmd),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getStorageTable()
 	{
-		if(!$this->storageTable) {
+		if (!$this->storageTable) {
 			$sm = $this->getServiceLocator();
 			$this->storageTable = $sm->get('Storage\Model\StorageTable');
 		}

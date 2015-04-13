@@ -36,12 +36,12 @@ class PoolController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'PoolId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
 				$paginator = $this->getPoolTable()->fetchAll(true, $order_by, $order);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage($limit);
 
 				return new ViewModel(
@@ -53,15 +53,14 @@ class PoolController extends AbstractActionController
 						'pools' => $this->getPoolTable()->fetchAll(),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function detailsAction()
 	{
-		if($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 
 				if (!$id) {
@@ -74,15 +73,14 @@ class PoolController extends AbstractActionController
 						'media' => $this->getMediaTable()->getPoolVolumes($id),
 					)
 				);
-		}
-		else {
+		} else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 	}
 
 	public function getPoolTable()
 	{
-		if(!$this->poolTable) {
+		if (!$this->poolTable) {
 			$sm = $this->getServiceLocator();
 			$this->poolTable = $sm->get('Pool\Model\PoolTable');
 		}
@@ -91,7 +89,7 @@ class PoolController extends AbstractActionController
 
 	public function getMediaTable()
 	{
-		if(!$this->mediaTable) {
+		if (!$this->mediaTable) {
 			$sm = $this->getServiceLocator();
 			$this->mediaTable = $sm->get('Media\Model\MediaTable');
 		}

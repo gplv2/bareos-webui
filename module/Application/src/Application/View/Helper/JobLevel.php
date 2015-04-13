@@ -31,7 +31,7 @@ class JobLevel extends AbstractHelper
 {
     public function __invoke($jobLevel)
     {
-	switch($jobLevel)
+	switch ($jobLevel)
 	{
 	    case 'I':
 	      $output = "Incremental";

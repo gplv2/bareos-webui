@@ -12,12 +12,12 @@ class FileController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if($_SESSION['user']['authenticated'] === true) {
+		if ($_SESSION['user']['authenticated'] === true) {
 				$paginator = $this->getFileTable()->fetchAll(true);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage(15);
 
-				return new ViewModel( array('paginator' => $paginator) );
+				return new ViewModel(array('paginator' => $paginator));
 		}
 		else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
@@ -31,7 +31,7 @@ class FileController extends AbstractActionController
 
 	public function jobidAction()
 	{
-		if($_SESSION['user']['authenticated'] === true) {
+		if ($_SESSION['user']['authenticated'] === true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 
 				if (!$id) {
@@ -39,10 +39,10 @@ class FileController extends AbstractActionController
 				}
 
 				$paginator = $this->getFileTable()->getFileByJobId($id);
-				$paginator->setCurrentPageNumber( (int) $this->params()->fromQuery('page', 1) );
+				$paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
 				$paginator->setItemCountPerPage(20);
 
-				return new ViewModel( array('paginator' => $paginator) );
+				return new ViewModel(array('paginator' => $paginator));
 		}
 		else {
 				return $this->redirect()->toRoute('auth', array('action' => 'login'));
@@ -51,7 +51,7 @@ class FileController extends AbstractActionController
 
 	public function getFileTable()
 	{
-		if(!$this->fileTable) {
+		if (!$this->fileTable) {
 			$sm = $this->getServiceLocator();
 			$this->fileTable = $sm->get('File\Model\FileTable');
 		}
