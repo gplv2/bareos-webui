@@ -1,4 +1,7 @@
 build:
+    dependencies:
+        before:
+            - mysql -uroot -e 'CREATE DATABASE bareos_test'
     tests:
         override:
             -

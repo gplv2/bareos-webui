@@ -37,6 +37,11 @@
  */
 
 $file = "/etc/bareos-webui/directors.ini";
+
+if (!file_exists($file)){
+	$file = "tests/directors.ini";
+}
+
 $config = null;
 
 if(!file_exists($file)) {
