@@ -47,190 +47,194 @@ else {
 	$config = parse_ini_file($file, true, INI_SCANNER_NORMAL);
 }
 
-function read_db_config($config, $file)
-{
+if (!function_exists('read_db_config')) {
+    function read_db_config($config, $file)
+    {
 
-	$arr = array();
+        $arr = array();
 
-	foreach($config as $instance) {
+        foreach($config as $instance) {
 
-		if(array_key_exists('enabled', $instance) && isset($instance['enabled']) && strtolower($instance['enabled']) == "yes") {
+            if(array_key_exists('enabled', $instance) && isset($instance['enabled']) && strtolower($instance['enabled']) == "yes") {
 
-			if(array_key_exists('dbaddress', $instance) && isset($instance['dbaddress'])) {
-				$arr['adapters'][key($config)] = array();
-						}
-						else {
-								if(array_key_exists('diraddress', $instance) && isset($instance['diraddress'])) {
-					$arr['adapters'][key($config)] = array();
-										$instance['dbaddress'] = $instance['diraddress'];
-								}
-								else {
-										echo "Error: Missing parameters 'dbaddress' and 'diraddress' in ".$file.", section ".key($config).".";
-										exit();
-								}
-						}
+                if(array_key_exists('dbaddress', $instance) && isset($instance['dbaddress'])) {
+                    $arr['adapters'][key($config)] = array();
+                }
+                else {
+                    if(array_key_exists('diraddress', $instance) && isset($instance['diraddress'])) {
+                        $arr['adapters'][key($config)] = array();
+                        $instance['dbaddress'] = $instance['diraddress'];
+                    }
+                    else {
+                        echo "Error: Missing parameters 'dbaddress' and 'diraddress' in ".$file.", section ".key($config).".";
+                        exit();
+                    }
+                }
 
-			if(array_key_exists('dbdriver', $instance) && isset($instance['dbdriver'])) {
-								if(strtolower($instance['dbdriver']) == "postgresql") {
-					$arr['adapters'][key($config)]['driver'] = "Pdo_Pgsql";
-								}
-								elseif(strtolower($instance['dbdriver']) == "mysql") {
-										$arr['adapters'][key($config)]['driver'] = "Pdo_Mysql";
-								}
-								else {
-										echo "Error: Mispelled value for parameter 'dbdriver' in ".$file.", section ".key($config).".";
-										exit();
-								}
-						}
-						else {
-								$arr['adapters'][key($config)]['driver'] = "Pdo_Pgsql";
-						}
+                if(array_key_exists('dbdriver', $instance) && isset($instance['dbdriver'])) {
+                    if(strtolower($instance['dbdriver']) == "postgresql") {
+                        $arr['adapters'][key($config)]['driver'] = "Pdo_Pgsql";
+                    }
+                    elseif(strtolower($instance['dbdriver']) == "mysql") {
+                        $arr['adapters'][key($config)]['driver'] = "Pdo_Mysql";
+                    }
+                    else {
+                        echo "Error: Mispelled value for parameter 'dbdriver' in ".$file.", section ".key($config).".";
+                        exit();
+                    }
+                }
+                else {
+                    $arr['adapters'][key($config)]['driver'] = "Pdo_Pgsql";
+                }
 
-			if(array_key_exists('dbname', $instance) && isset($instance['dbname'])) {
-								$arr['adapters'][key($config)]['dbname'] = $instance['dbname'];
-						}
-						else {
-								$arr['adapters'][key($config)]['dbname'] = "bareos";
-						}
+                if(array_key_exists('dbname', $instance) && isset($instance['dbname'])) {
+                    $arr['adapters'][key($config)]['dbname'] = $instance['dbname'];
+                }
+                else {
+                    $arr['adapters'][key($config)]['dbname'] = "bareos";
+                }
 
-						if(array_key_exists('dbaddress', $instance) && isset($instance['dbaddress'])) {
-								$arr['adapters'][key($config)]['host'] = $instance['dbaddress'];
-						}
-						else {
-								$arr['adapters'][key($config)]['host'] = "127.0.0.1";
-						}
+                if(array_key_exists('dbaddress', $instance) && isset($instance['dbaddress'])) {
+                    $arr['adapters'][key($config)]['host'] = $instance['dbaddress'];
+                }
+                else {
+                    $arr['adapters'][key($config)]['host'] = "127.0.0.1";
+                }
 
-						if(array_key_exists('dbport', $instance) && isset($instance['dbport'])) {
-								$arr['adapters'][key($config)]['port'] = $instance['dbport'];
-						}
-						else {
-								if($arr['adapters'][$instance['dbaddress']]['driver'] == "Pdo_Pgsql") {
-										$arr['adapters'][key($config)]['port'] = 5432;
-								}
-								else {
-										$arr['adapters'][key($config)]['port'] = 3306;
-								}
-						}
+                if(array_key_exists('dbport', $instance) && isset($instance['dbport'])) {
+                    $arr['adapters'][key($config)]['port'] = $instance['dbport'];
+                }
+                else {
+                    if($arr['adapters'][$instance['dbaddress']]['driver'] == "Pdo_Pgsql") {
+                        $arr['adapters'][key($config)]['port'] = 5432;
+                    }
+                    else {
+                        $arr['adapters'][key($config)]['port'] = 3306;
+                    }
+                }
 
-			if(array_key_exists('dbuser', $instance) && isset($instance['dbuser'])) {
-								$arr['adapters'][key($config)]['username'] = $instance['dbuser'];
-						}
-						else {
-								$arr['adapters'][key($config)]['username'] = "bareos";
-						}
+                if(array_key_exists('dbuser', $instance) && isset($instance['dbuser'])) {
+                    $arr['adapters'][key($config)]['username'] = $instance['dbuser'];
+                }
+                else {
+                    $arr['adapters'][key($config)]['username'] = "bareos";
+                }
 
-						if(array_key_exists('dbpassword', $instance) && isset($instance['dbpassword'])) {
-								$arr['adapters'][key($config)]['password'] = $instance['dbpassword'];
-						}
-						else {
-								$arr['adapters'][key($config)]['password'] = "";
-						}
+                if(array_key_exists('dbpassword', $instance) && isset($instance['dbpassword'])) {
+                    $arr['adapters'][key($config)]['password'] = $instance['dbpassword'];
+                }
+                else {
+                    $arr['adapters'][key($config)]['password'] = "";
+                }
 
-		}
+            }
 
-		next($config);
+            next($config);
 
-	}
+        }
 
-	return $arr;
+        return $arr;
 
+    }
 }
 
-function read_dir_config($config, $file)
-{
+if (!function_exists('read_dir_config')) {
+    function read_dir_config($config, $file)
+    {
 
-	$arr = array();
+        $arr = array();
 
-	foreach($config as $instance) {
+        foreach($config as $instance) {
 
-				if(array_key_exists('enabled', $instance) && isset($instance['enabled']) && strtolower($instance['enabled']) == "yes") {
+            if(array_key_exists('enabled', $instance) && isset($instance['enabled']) && strtolower($instance['enabled']) == "yes") {
 
-			if(array_key_exists('diraddress', $instance) && isset($instance['diraddress'])) {
-				$arr[key($config)] = array();
-				$arr[key($config)]['host'] = $instance['diraddress'];
-						}
-						else {
-								echo "Error: Missing parameter 'diraddress' in ".$file.", section ".key($config).".";
-								exit();
-						}
+                if(array_key_exists('diraddress', $instance) && isset($instance['diraddress'])) {
+                    $arr[key($config)] = array();
+                    $arr[key($config)]['host'] = $instance['diraddress'];
+                }
+                else {
+                    echo "Error: Missing parameter 'diraddress' in ".$file.", section ".key($config).".";
+                    exit();
+                }
 
-						if(array_key_exists('dirport', $instance) && isset($instance['dirport'])) {
-								$arr[key($config)]['port'] = $instance['dirport'];
-						}
-						else {
-								$arr[key($config)]['port'] = 9101;
-						}
+                if(array_key_exists('dirport', $instance) && isset($instance['dirport'])) {
+                    $arr[key($config)]['port'] = $instance['dirport'];
+                }
+                else {
+                    $arr[key($config)]['port'] = 9101;
+                }
 
-			if(array_key_exists('tls_verify_peer', $instance) && isset($instance['tls_verify_peer'])) {
-								$arr[key($config)]['tls_verify_peer'] = $instance['tls_verify_peer'];
-						}
-						else {
-								$arr[key($config)]['tls_verify_peer'] = false;
-						}
+                if(array_key_exists('tls_verify_peer', $instance) && isset($instance['tls_verify_peer'])) {
+                    $arr[key($config)]['tls_verify_peer'] = $instance['tls_verify_peer'];
+                }
+                else {
+                    $arr[key($config)]['tls_verify_peer'] = false;
+                }
 
-						if(array_key_exists('server_can_do_tls', $instance) && isset($instance['server_can_do_tls'])) {
-								$arr[key($config)]['server_can_do_tls'] = $instance['server_can_do_tls'];
-						}
-						else {
-						}
+                if(array_key_exists('server_can_do_tls', $instance) && isset($instance['server_can_do_tls'])) {
+                    $arr[key($config)]['server_can_do_tls'] = $instance['server_can_do_tls'];
+                }
+                else {
+                }
 
-						if(array_key_exists('server_requires_tls', $instance) && isset($instance['server_requires_tls'])) {
-								$arr[key($config)]['server_requires_tls'] = $instance['server_requires_tls'];
-						}
-						else {
-								$arr[key($config)]['server_requires_tls'] = false;
-						}
+                if(array_key_exists('server_requires_tls', $instance) && isset($instance['server_requires_tls'])) {
+                    $arr[key($config)]['server_requires_tls'] = $instance['server_requires_tls'];
+                }
+                else {
+                    $arr[key($config)]['server_requires_tls'] = false;
+                }
 
-						if(array_key_exists('client_can_do_tls', $instance) && isset($instance['client_can_do_tls'])) {
-								$arr[key($config)]['client_can_do_tls'] = $instance['client_can_do_tls'];
-						}
-						else {
-								$arr[key($config)]['client_can_do_tls'] = false;
-						}
+                if(array_key_exists('client_can_do_tls', $instance) && isset($instance['client_can_do_tls'])) {
+                    $arr[key($config)]['client_can_do_tls'] = $instance['client_can_do_tls'];
+                }
+                else {
+                    $arr[key($config)]['client_can_do_tls'] = false;
+                }
 
-						if(array_key_exists('client_requires_tls', $instance) && isset($instance['client_requires_tls'])) {
-								$arr[key($config)]['client_requires_tls'] = $instance['client_requires_tls'];
-						}
-						else {
-								$arr[key($config)]['client_requires_tls'] = false;
-						}
+                if(array_key_exists('client_requires_tls', $instance) && isset($instance['client_requires_tls'])) {
+                    $arr[key($config)]['client_requires_tls'] = $instance['client_requires_tls'];
+                }
+                else {
+                    $arr[key($config)]['client_requires_tls'] = false;
+                }
 
-			if(array_key_exists('ca_file', $instance) && isset($instance['ca_file'])) {
-								$arr[key($config)]['ca_file'] = $instance['ca_file'];
-						}
-						else {
-								$arr[key($config)]['ca_file'] = "";
-						}
+                if(array_key_exists('ca_file', $instance) && isset($instance['ca_file'])) {
+                    $arr[key($config)]['ca_file'] = $instance['ca_file'];
+                }
+                else {
+                    $arr[key($config)]['ca_file'] = "";
+                }
 
-						if(array_key_exists('cert_file', $instance) && isset($instance['cert_file'])) {
-								$arr[key($config)]['cert_file'] = $instance['cert_file'];
-						}
-						else {
-								$arr[key($config)]['cert_file'] = "";
-						}
+                if(array_key_exists('cert_file', $instance) && isset($instance['cert_file'])) {
+                    $arr[key($config)]['cert_file'] = $instance['cert_file'];
+                }
+                else {
+                    $arr[key($config)]['cert_file'] = "";
+                }
 
-						if(array_key_exists('cert_file_passphrase', $instance) && isset($instance['cert_file_passphrase'])) {
-								$arr[key($config)]['cert_file_passphrase'] = $instance['cert_file_passphrase'];
-						}
-						else {
-								$arr[key($config)]['cert_file_passphrase'] = "";
-						}
+                if(array_key_exists('cert_file_passphrase', $instance) && isset($instance['cert_file_passphrase'])) {
+                    $arr[key($config)]['cert_file_passphrase'] = $instance['cert_file_passphrase'];
+                }
+                else {
+                    $arr[key($config)]['cert_file_passphrase'] = "";
+                }
 
-						if(array_key_exists('allowed_cns', $instance) && isset($instance['allowed_cns'])) {
-								$arr[key($config)]['allowed_cns'] = $instance['allowed_cns'];
-						}
-						else {
-								$arr[key($config)]['allowed_cns'] = "";
-						}
+                if(array_key_exists('allowed_cns', $instance) && isset($instance['allowed_cns'])) {
+                    $arr[key($config)]['allowed_cns'] = $instance['allowed_cns'];
+                }
+                else {
+                    $arr[key($config)]['allowed_cns'] = "";
+                }
 
-		}
+            }
 
-		next($config);
+            next($config);
 
-	}
+        }
 
-	return $arr;
+        return $arr;
 
+    }
 }
 
 return array(
