@@ -1,5 +1,4 @@
-CREATE ROLE bareos WITH LOGIN;
-CREATE USER bareos bareos;
+CREATE USER bareos;
 
 -- For tables
 GRANT ALL ON UnSavedFiles TO bareos;
