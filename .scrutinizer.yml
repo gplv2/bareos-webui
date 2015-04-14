@@ -2,6 +2,7 @@ build:
     dependencies:
         before:
             - mysql -uroot -e 'CREATE DATABASE bareos_test'
+            - zcat tests/travis/mysql/bacula-full.gz | mysql -uroot bareos_test
     tests:
         override:
             -
