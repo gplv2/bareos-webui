@@ -5,6 +5,8 @@ namespace JobTest;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Stdlib\ArrayUtils;
+
 use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
@@ -16,6 +18,13 @@ class Bootstrap
 
 	public static function init()
 	{
+
+		// Load the user-defined test configuration file, if it exists; otherwise, load
+		// echo __DIR__ . '/../config/autoload/local.php' . PHP_EOL; exit;
+		if (file_exists(__DIR__ . '/../config/autoload/local.php')) {
+			$testConfig = include __DIR__ . '/../config/autoload/local.php';
+		}
+
 		$zf2ModulePaths = array(dirname(dirname(__DIR__)));
 		if (($path = static::findParentPath('vendor'))) {
 			$zf2ModulePaths[] = $path;
@@ -27,10 +36,12 @@ class Bootstrap
 		static::initAutoloader();
 
 		// use ModuleManager to load this module and it's dependencies
-		$config = array(
+		$baserConfig = array(
 			'module_listener_options' => array('module_paths' => $zf2ModulePaths,),
 			'modules' => array('Job')
 		);
+
+		$config = ArrayUtils::merge($baseConfig, $testConfig);
 
 		$serviceManager = new ServiceManager(new ServiceManagerConfig());
 		$serviceManager->setService('ApplicationConfig', $config);
