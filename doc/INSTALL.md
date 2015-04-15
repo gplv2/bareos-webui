@@ -232,14 +232,6 @@ If you have installed from package, a default configuration is provided, please 
 Required apache modules, setenv, rewrite and php are enabled via package postinstall script.
 You simply need to restart your apache webserver manually.
 
-#### Step 5 - Configure your /etc/bareos-webui/directors.ini
-
-Configure your database and director connections in */etc/bareos-webui/directors.ini* to match your database and director settings,
-which you have choosen in the previous steps.
-
-The configuration file /etc/bareos-webui/directors.ini should look similar to this:
-
-```
 #### Step 4 alternative - Configure your nginx Webserver
 
 If you have installed from package, a default configuration is provided, please see /etc/nginx/sites-available/default, on ubuntu,
@@ -248,28 +240,36 @@ symlink this file from /etc/nginx/sites-enabled:
 
 make the needed edits (change the port too!)
 
+```
 cd /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-available/bareos-webui.conf .
+```
 
 No additional modules are needed for nginx, but you do have to install php5-fpm.  You will want the latest 5.5 PHP , so if you
 are on ubuntu 12.04 LTS, that means installing php fpm from PPA.  I recommend this:
 
+```
 sudo add-apt-repository ppa:ondrej/php5
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install php5 php5-fpm
+```
 
 Make sure you have a php5-fpm pool in /etc/php5/fpm/pool.d/www.conf
  
 Then you simply need to restart your nginx webserver and php5-fpm manually.
 
+```
 service nginx restart 
 service php5-fpm restart
+```
 
 or old school as long as it works :
 
+```
 /etc/init.d/nginx restart
 /etc/init.d/php5-fpm restart
+```
 
 #### Step 5 - Configure your /etc/bareos-webui/directors.ini
 
