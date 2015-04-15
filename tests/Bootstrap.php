@@ -36,12 +36,12 @@ class Bootstrap
 		static::initAutoloader();
 
 		// use ModuleManager to load this module and it's dependencies
-		$baserConfig = array(
+		$config = array(
 			'module_listener_options' => array('module_paths' => $zf2ModulePaths,),
 			'modules' => array('Job')
 		);
 
-		$config = ArrayUtils::merge($baseConfig, $testConfig);
+		//$config = ArrayUtils::merge($baseConfig, $testConfig);
 
 		$serviceManager = new ServiceManager(new ServiceManagerConfig());
 		$serviceManager->setService('ApplicationConfig', $config);
