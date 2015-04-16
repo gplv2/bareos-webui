@@ -23,8 +23,8 @@ class Bootstrap
 
 		// Load the user-defined test configuration file, if it exists; otherwise, load
 		// echo __DIR__ . '/../config/autoload/local.php' . PHP_EOL; exit;
-		if (file_exists(__DIR__ . '/../config/autoload/local.php')) {
-			$testConfig = include __DIR__ . '/../config/autoload/local.php';
+		if (file_exists(__DIR__ . '/../config/autoload/local.php.dist')) {
+			$testConfig = include __DIR__ . '/../config/autoload/local.php.dist';
 		}
 
 		$zf2ModulePaths = array(dirname(dirname(__DIR__)));
