@@ -37,6 +37,7 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
 		$this->setApplicationConfig(
 			include './config/application.config.php'
 		);
+		parent::setUp();
 	}
 
 	public function testIndexActionCanBeAccessed() 
