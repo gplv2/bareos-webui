@@ -1,6 +1,7 @@
 <?php
 
 namespace JobTest;
+ob_start();
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -11,6 +12,7 @@ use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
+define ('APPLICATION_ENV', 'development');
 
 class Bootstrap 
 {

@@ -41,8 +41,10 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed() 
 	{
+		// print_r($this);
 		$this->dispatch('/dashboard');
-		$this->assertResponseStatusCode(200);
+		$this->assertResponseStatusCode(302);
+		$this->assertRedirectRegex('/auth\/login/');
 		$this->assertModuleName('Dashboard');
 		$this->assertControllerName('Dashboard\Controller\Dashboard');
 		$this->assertControllerClass('DashboardController');
