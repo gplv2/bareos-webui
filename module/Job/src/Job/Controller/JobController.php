@@ -176,30 +176,89 @@ class JobController extends AbstractActionController
 
 	public function rerunAction()
 	{
+		// Keep the connection open if we need to issue multiple director commands
 		$flags = new \stdClass;
 		$flags->keepalive = true;
 
 		if ($_SESSION['bareos']['authenticated'] === true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
-				// list job jobid=8477
 
 				$cmd = "rerun jobid=" . $jobid . " yes";
 				$this->director = $this->getServiceLocator()->get('director');
 				$output = $this->director->send_command($cmd, $flags);
 
+				// Rerun not supported. We deal with old bareos or bacula.
 				if (preg_match('/rerun: is an invalid command/', $output, $match)) {
-				   $cmd = "list jobid=" . $jobid;
-				   $output = $this->director->send_command($cmd);
-					// run job="Server017 - upload signatures" level=Full yes
-				   foreach(preg_split("/((\r?\n)|(\r\n?))/", $subject) as $line){
-						echo $line . PHP_EOL;
-					} 	
-               //debugbar_log($output);
+
+					// 'list' needs to be in the commandACl list for this to work!
+					$cmd = "list jobid=" . $jobid;
+					$output = $this->director->send_command($cmd,$flags);
+
+					// parse output and construct a run command
+					$values=array();
+					$headers=array();
+					$res=array();
+					$gotheaders=false;
+					$gotvalues=false;
+					foreach(preg_split("/((\r?\n)|(\r\n?))/", $output) as $line){
+						// all nice lines start with |
+						$pos = strpos($line, '|');
+						if ($pos === false) {
+							// Skip lines not starting with |
+							continue;
+						}
+
+						// now find the result header
+						if (preg_match_all("/\s+(.*)+\s+/", $line, $keys) and !$gotheaders) {
+							$headers=explode('|',$line);
+							foreach ($headers as $hk => $hv) {
+								if (!strlen($hv)) {
+									unset($headers[$hk]);	
+								} else {
+									$headers[$hk]=trim($hv);
+								}
+								$gotheaders=true;
+							}
+						} elseif ($gotheaders and !$gotvalues) {
+							$values = explode('|',$line);
+							foreach ($values as $vk => $vv) {
+								if (!strlen($vv)) {
+									unset($values[$vk]);	
+								} else {
+									$values[$vk]=trim($vv);
+								}
+								$gotvalues=true;
+							}
+						} 
+						if ($gotvalues) {
+							$res= array_combine( $headers , $values );
+							if (!empty($res['Level'])) {
+									switch ($res['Level']) {
+										case 'D':
+											$res['Level']="Differential";
+											break;
+										case 'I':
+											$res['Level']="Incremental";
+											break;
+										case 'F':
+											$res['Level']="Full";
+											break;
+									}
+							}
+							break; 
+							// we only expect 1 result back from this command
+						}
+					}
+					if (!empty($res)) {
+						$cmd=sprintf("run job=\"%s\" level=%s yes", $res['Name'], $res['Level'] );
+						$output = $this->director->send_command($cmd);
+					}
 				}
-     				//print_r($output);exit;
+				//echo $line . PHP_EOL;
 
 				return new ViewModel(
 						array(
+							//'bconsoleOutput' => print_r($res,true),
 							'bconsoleOutput' => $output,
 							'jobid' => $jobid,
 						)
