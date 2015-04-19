@@ -24,11 +24,11 @@
  http://framework.zend.com/manual/1.12/en/zend.test.phpunit.html
  */
 
-namespace DashboardTest\Controller;
+namespace Login\Controller;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class DashboardControllerTest extends AbstractHttpControllerTestCase
+class LoginControllerTest extends AbstractHttpControllerTestCase
 {
 
 	protected $traceError = true;
@@ -47,6 +47,7 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
                 $username = 'backup';
                 $password = 'orchestra.';
 		// $routeMatch = $this->getApplication()->getMvcEvent()->getRouteMatch();
+		// $this->assertTrue(Auth::getInstance()->hasIdentity());
 		
 		echo "Testing login" . PHP_EOL;
 		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));

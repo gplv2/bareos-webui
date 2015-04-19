@@ -4,6 +4,7 @@ namespace JobTest;
 ob_start();
 
 use Zend\Loader\AutoloaderFactory;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
@@ -39,8 +40,20 @@ class Bootstrap
 
 		// use ModuleManager to load this module and it's dependencies
 		$config = array(
-			'module_listener_options' => array('module_paths' => $zf2ModulePaths,),
-			'modules' => array('Job')
+			'modules' => array('Job','Auth'),
+			'module_listener_options' => array('module_paths' => $zf2ModulePaths,
+				'module_paths' => array(
+					'../module',
+					'../vendor',
+					),
+				// An array of paths from which to glob configuration files after
+				// modules are loaded. These effectively override configuration
+				// provided by modules themselves. Paths may use GLOB_BRACE notation.
+				'config_glob_paths' => array(
+					'../config/autoload/{,*.}{global,local}.php',
+					),
+				)
+
 		);
 
 		//$config = ArrayUtils::merge($baseConfig, $testConfig);
@@ -48,6 +61,7 @@ class Bootstrap
 		$serviceManager = new ServiceManager(new ServiceManagerConfig());
 		$serviceManager->setService('ApplicationConfig', $config);
 		$serviceManager->get('ModuleManager')->loadModules();
+
 		static::$serviceManager = $serviceManager;
 	}
 
@@ -117,4 +131,3 @@ class Bootstrap
 
 Bootstrap::init();
 Bootstrap::chroot();
-

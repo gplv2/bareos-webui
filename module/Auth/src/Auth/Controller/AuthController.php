@@ -102,11 +102,11 @@ class AuthController extends AbstractActionController
 				session_destroy();
 
 				return new ViewModel(
-												array(
-														'form' => $form,
-														'err_msg' => $err_msg,
-												)
-				);
+						array(
+							'form' => $form,
+							'err_msg' => $err_msg,
+						     )
+						);
 
 			}
 
