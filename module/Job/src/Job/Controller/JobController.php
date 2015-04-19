@@ -176,13 +176,16 @@ class JobController extends AbstractActionController
 
 	public function rerunAction()
 	{
+		$flags = new \stdClass;
+		$flags->keepalive = true;
+
 		if ($_SESSION['bareos']['authenticated'] === true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
 				// list job jobid=8477
 
 				$cmd = "rerun jobid=" . $jobid . " yes";
 				$this->director = $this->getServiceLocator()->get('director');
-				$output = $this->director->send_command($cmd);
+				$output = $this->director->send_command($cmd, $flags);
 
 				if (preg_match('/rerun: is an invalid command/', $output, $match)) {
 				   $cmd = "list jobid=" . $jobid;

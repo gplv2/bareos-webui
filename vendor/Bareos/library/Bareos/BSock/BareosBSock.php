@@ -825,13 +825,11 @@ class BareosBSock implements BareosBSockInterface
 		$result = "";
 		if(self::send($cmd)) {
 			$result = self::receive_message();
-			if !(is_object($flags) && isset($flags->keepalive) && $flags->keepalive) {
-					self::disconnect();
-				}
+			if (!(is_object($flags) && isset($flags->keepalive) && $flags->keepalive)) {
+				self::disconnect();
 			}
 		}
 		return $result;
 	}
-
 }
 ?>
