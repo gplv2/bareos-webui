@@ -178,11 +178,21 @@ class JobController extends AbstractActionController
 	{
 		if ($_SESSION['bareos']['authenticated'] === true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
+				// list job jobid=8477
+
 				$cmd = "rerun jobid=" . $jobid . " yes";
 				$this->director = $this->getServiceLocator()->get('director');
+				$output = $this->director->send_command($cmd);
+
+				if (preg_match('/^rerun: is an invalid command.$/', $output, $match)) {
+				   $cmd = "list job jobid=" . $jobid;
+				   $output = $this->director->send_command($cmd);
+               debugbar_log($output);
+				}
+
 				return new ViewModel(
 						array(
-							'bconsoleOutput' => $this->director->send_command($cmd),
+							'bconsoleOutput' => $output,
 							'jobid' => $jobid,
 						)
 				);
