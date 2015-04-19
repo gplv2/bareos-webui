@@ -184,13 +184,16 @@ class JobController extends AbstractActionController
 				$this->director = $this->getServiceLocator()->get('director');
 				$output = $this->director->send_command($cmd);
 
-				if (preg_match('/^rerun: is an invalid command.$/', $output, $match)) {
-				   $cmd = "list job jobid=" . $jobid;
+				if (preg_match('/rerun: is an invalid command/', $output, $match)) {
+				   $cmd = "list jobid=" . $jobid;
 				   $output = $this->director->send_command($cmd);
-
-               print_r($output);exit;
+					// run job="Server017 - upload signatures" level=Full yes
+				   foreach(preg_split("/((\r?\n)|(\r\n?))/", $subject) as $line){
+						echo $line . PHP_EOL;
+					} 	
                //debugbar_log($output);
 				}
+     				//print_r($output);exit;
 
 				return new ViewModel(
 						array(

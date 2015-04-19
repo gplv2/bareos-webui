@@ -817,15 +817,18 @@ class BareosBSock implements BareosBSockInterface
 	/**
 	 * Send a single command
 	 *
-	 * @param $cmd
+	 * @param $cmd $flags
 	 * @return string
 	 */
-	public function send_command($cmd)
+	public function send_command($cmd, $flags = null )
 	{
 		$result = "";
 		if(self::send($cmd)) {
 			$result = self::receive_message();
-			self::disconnect();
+			if !(is_object($flags) && isset($flags->keepalive) && $flags->keepalive) {
+					self::disconnect();
+				}
+			}
 		}
 		return $result;
 	}
