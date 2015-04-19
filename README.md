@@ -7,6 +7,8 @@ Bareos WebUI
 [![Code Coverage](https://scrutinizer-ci.com/g/gplv2/bareos-webui/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gplv2/bareos-webui/)
 [![Travis build](https://api.travis-ci.org/gplv2/bareos-webui.svg)](https://travis-ci.org/gplv2/bareos-webui)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/90536f31-7e19-46c2-a501-702fd409b810/mini.png)](https://insight.sensiolabs.com/projects/90536f31-7e19-46c2-a501-702fd409b810)
+[![Code Climate](https://codeclimate.com/github/gplv2/bareos-webui.svg)](https://codeclimate.com/github/gplv2/bareos-webui)
+[![Security](https://hakiri.io/github/gplv2/bareos-webui.svg)](https://hakiri.io/github/gplv2/bareos-webui/master)
 
 A PHP-Frontend to manage [Bareos](http://www.bareos.org/) over the web.
 
