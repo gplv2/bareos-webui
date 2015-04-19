@@ -187,7 +187,9 @@ class JobController extends AbstractActionController
 				if (preg_match('/^rerun: is an invalid command.$/', $output, $match)) {
 				   $cmd = "list job jobid=" . $jobid;
 				   $output = $this->director->send_command($cmd);
-               debugbar_log($output);
+
+               print_r($output);exit;
+               //debugbar_log($output);
 				}
 
 				return new ViewModel(
