@@ -41,7 +41,24 @@ class AdminControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed()
 	{
+		// Looks like these 3 can be viewed without being logged in
 		$this->dispatch('/admin');
+		$this->assertResponseStatusCode(200);
+		$this->assertModuleName('Admin');
+		$this->assertControllerName('Admin\Controller\Admin');
+		$this->assertControllerClass('AdminController');
+		$this->assertMatchedRouteName('admin');
+
+		$this->reset(true);
+		$this->dispatch('/admin/roles');
+		$this->assertResponseStatusCode(200);
+		$this->assertModuleName('Admin');
+		$this->assertControllerName('Admin\Controller\Admin');
+		$this->assertControllerClass('AdminController');
+		$this->assertMatchedRouteName('admin');
+
+		$this->reset(true);
+		$this->dispatch('/admin/users');
 		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Admin');
 		$this->assertControllerName('Admin\Controller\Admin');

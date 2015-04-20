@@ -42,23 +42,24 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed() 
 	{
-
                 $director = 'localhost-dir';
                 $username = 'backup';
-                $password = 'orchestra.';
+                $password = 'orchestra1.';
 		// $routeMatch = $this->getApplication()->getMvcEvent()->getRouteMatch();
 		
 		// echo "Testing login" . PHP_EOL;
 		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
-		$this->assertNotRedirect();
-		$this->assertResponseStatusCode(200);
+		//$this->assertNotRedirect();
+		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(302);
 		$this->reset(true);
 		//$app = $this->getRequest();
 		//print_r($app);
 		// echo "Dashboard" . PHP_EOL;
+
 		$this->dispatch('/dashboard');
-		$this->assertResponseStatusCode(302);
-		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(200);
+		//$this->assertRedirectRegex('/dashboard/');
 /*
 		$this->assertRedirectRegex('/auth\/login/');
 		$this->assertModuleName('Dashboard');
