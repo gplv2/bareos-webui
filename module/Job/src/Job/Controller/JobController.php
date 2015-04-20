@@ -219,7 +219,7 @@ class JobController extends AbstractActionController
 								}
 								$gotheaders=true;
 							}
-						} elseif ($gotheaders and !$gotvalues) {
+						} elseif ($gotheaders && !$gotvalues) {
 							$values = explode('|',$line);
 							foreach ($values as $vk => $vv) {
 								if (!strlen($vv)) {

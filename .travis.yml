@@ -23,7 +23,7 @@ branches:
   only:
     - master
 
-script: phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml'
+script: phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml' tests/
 
 after_script:
 
