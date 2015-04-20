@@ -48,14 +48,14 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
                 $password = 'orchestra.';
 		// $routeMatch = $this->getApplication()->getMvcEvent()->getRouteMatch();
 		
-		echo "Testing login" . PHP_EOL;
+		// echo "Testing login" . PHP_EOL;
 		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
 		$this->assertNotRedirect();
 		$this->assertResponseStatusCode(200);
 		$this->reset(true);
 		//$app = $this->getRequest();
 		//print_r($app);
-		echo "Dashboard" . PHP_EOL;
+		// echo "Dashboard" . PHP_EOL;
 		$this->dispatch('/dashboard');
 		$this->assertResponseStatusCode(302);
 		$this->assertRedirectRegex('/dashboard/');
