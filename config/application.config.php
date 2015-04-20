@@ -48,7 +48,7 @@ $modules = array(
 
 
 if($env == 'development') {
-	$modules[] = 'ZfSnapPhpDebugBar';  // you may comment only this line out if ZendDeveloperTools are not installed e.g.
+	//$modules[] = 'ZfSnapPhpDebugBar';  // you may comment only this line out if ZendDeveloperTools are not installed e.g.
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
 }
