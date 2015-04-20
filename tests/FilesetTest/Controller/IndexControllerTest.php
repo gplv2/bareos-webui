@@ -41,26 +41,21 @@ class FilesetControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed()
 	{
+                $director = 'localhost-dir';
+                $username = 'backup';
+                $password = 'orchestra1.';
+
+		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
+		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(302);
+		
+		$this->reset(true);
 		$this->dispatch('/fileset//');
-		$this->assertResponseStatusCode(300);
+		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Fileset');
 		$this->assertControllerName('Fileset\Controller\Fileset');
 		$this->assertControllerClass('FilesetController');
 		$this->assertMatchedRouteName('fileset');
-
-  		// $session = Zend_Registry::get('session');
-    		// $session->setExpirationSeconds(60);
-
-		$this->dispatch('/fileset//');
-		$this->assertResponseStatusCode(300);
-		$this->assertModuleName('Fileset');
-		$this->assertControllerName('Fileset\Controller\Fileset');
-		$this->assertControllerClass('FilesetController');
-		$this->assertMatchedRouteName('fileset');
-
-    		// $session->testIndex = "testValue";
-    		// $this->assertEquals('testValue', $session->testIndex);
-    		// $this->assertEquals(null, $session->testIndex);
 
 	}
 

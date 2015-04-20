@@ -40,6 +40,16 @@ class ClientControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed()
 	{
+                $director = 'localhost-dir';
+                $username = 'backup';
+                $password = 'orchestra1.';
+                // $routeMatch = $this->getApplication()->getMvcEvent()->getRouteMatch();
+
+                $this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
+                $this->assertRedirectRegex('/dashboard/');
+                $this->assertResponseStatusCode(302);
+                
+		$this->reset(true);
 		$this->dispatch('/client');
 		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Client');
@@ -47,5 +57,4 @@ class ClientControllerTest extends AbstractHttpControllerTestCase
 		$this->assertControllerClass('ClientController');
 		$this->assertMatchedRouteName('client');
 	}
-
 }
