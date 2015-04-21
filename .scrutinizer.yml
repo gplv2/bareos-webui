@@ -11,11 +11,6 @@ build:
                 coverage:
                     file: 'clover.xml'
                     format: 'php-clover'
-filter:
-    paths:
-        - 'tests/*'
-    excluded_paths:
-        - 'config/*'
 checks:
     php:
         code_rating: true

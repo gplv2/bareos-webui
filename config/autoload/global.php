@@ -39,16 +39,30 @@
 $file = "/etc/bareos-webui/directors.ini";
 
 if (!file_exists($file)){
+	echo "No director file found in ".$file.".". PHP_EOL;
+	$file = "./tests/directors.ini";
+}
+
+if (!file_exists($file)){
+	echo "No director file found in ".$file.".". PHP_EOL;
 	$file = "../tests/directors.ini";
+}
+
+if (!file_exists($file)){
+	echo "No director file found in ".$file.".". PHP_EOL;
+	$file = "tests/directors.ini";
+}
+if (!file_exists($file)){
+	echo "No director file found in ".$file.".". PHP_EOL;
+	$file = "directors.ini";
 }
 
 $config = null;
 
 if(!file_exists($file)) {
-	echo "Error: Missing configuration file ".$file.".";
-		exit();
-}
-else {
+	echo "Error: Missing configuration file ".$file.".". PHP_EOL;
+	exit();
+} else {
 	$config = parse_ini_file($file, true, INI_SCANNER_NORMAL);
 }
 
