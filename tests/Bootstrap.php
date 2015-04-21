@@ -19,6 +19,8 @@ define ('APP_ENV', 'development');
 class Bootstrap 
 {
 	protected static $serviceManager;
+ 	protected static $config;
+    	protected static $bootstrap;
 
 	public static function init()
 	{
@@ -41,7 +43,7 @@ class Bootstrap
 
 		// use ModuleManager to load this module and it's dependencies
 		$config = array(
-			'modules' => array('Job','Auth'),
+			'modules' => array('Application','Job','Auth','Client'),
 			'module_listener_options' => array('module_paths' => $zf2ModulePaths,
 				'module_paths' => array(
 					'../module',
@@ -64,6 +66,7 @@ class Bootstrap
 		$serviceManager->get('ModuleManager')->loadModules();
 
 		static::$serviceManager = $serviceManager;
+		static::$config = $config;
 	}
 
 	public static function chroot()
@@ -75,6 +78,11 @@ class Bootstrap
 	public static function getServiceManager() 
 	{
 		return static::$serviceManager;
+	}
+
+	public static function getConfig()
+	{
+		return static::$config;
 	}
 
 	protected static function initAutoloader() 
