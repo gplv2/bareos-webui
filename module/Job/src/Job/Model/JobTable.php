@@ -246,8 +246,7 @@ class JobTable implements ServiceLocatorAwareInterface
 		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
 			$interval = "now() - interval 1 day";
-				}
-				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 			$interval = "now() - interval '1 day'";
 				}
@@ -309,8 +308,7 @@ class JobTable implements ServiceLocatorAwareInterface
 		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
 						$interval = "now() - interval 1 day";
-				}
-				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 						$interval = "now() - interval '1 day'";
 				}
@@ -371,8 +369,7 @@ class JobTable implements ServiceLocatorAwareInterface
 	{
 		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$interval = "now() - interval 1 day";
-				}
-				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$interval = "now() - interval '1 day'";
 				}
 
