@@ -141,7 +141,7 @@ class JobStatus extends AbstractHelper
 			  	break;
 			// Default
 			default:
-				$output = '<span class="label label-primary">' . $jobStatus . '</span>';
+				$output = '<span class="label label-primary">'.$jobStatus.'</span>';
 		  		break;
 		}
 	

@@ -1,11 +1,11 @@
 <?php
 /**
-   * Zend Framework (http://framework.zend.com/)
-   *
-   * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
-   * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
-   * @license   http://framework.zend.com/license/new-bsd New BSD License
-   */
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
 
 namespace Application;
 
@@ -27,19 +27,19 @@ class Module
 
 	public function getConfig()
 	{
-		return include __DIR__ . '/config/module.config.php';
+		return include __DIR__.'/config/module.config.php';
 	}
 
 	public function getAutoloaderConfig()
 	{
 		return array(
 		'Zend\Loader\ClassMapAutoloader' => array(
-				'application' => __DIR__ . '/autoload_classmap.php',
+				'application' => __DIR__.'/autoload_classmap.php',
 			),
 			'Zend\Loader\StandardAutoloader' => array(
 				'namespaces' => array(
-					__NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-				'Bareos' => __DIR__ .'/../../vendor/Bareos/library/Bareos',
+					__NAMESPACE__ => __DIR__.'/src/'.__NAMESPACE__,
+				'Bareos' => __DIR__.'/../../vendor/Bareos/library/Bareos',
 				),
 			),
 		);
@@ -55,35 +55,35 @@ class Module
 
 		$container = new Container('bareos');
 
-		if(!isset($container->init)) {
+		if (!isset($container->init)) {
 
 			$serviceManager = $e->getApplication()->getServiceManager();
-			$request		= $serviceManager->get('Request');
+			$request = $serviceManager->get('Request');
 
 			$session->regenerateId(true);
-			$container->init			= 1;
-			$container->remoteAddr		= $request->getServer()->get('REMOTE_ADDR');
+			$container->init = 1;
+			$container->remoteAddr = $request->getServer()->get('REMOTE_ADDR');
 			$container->httpUserAgent	= $request->getServer()->get('HTTP_USER_AGENT');
-			$container->username 		= "";
+			$container->username = "";
 			$container->authenticated	= false;
 
 			$config = $serviceManager->get('Config');
 
-			if(!isset($config['session'])) {
+			if (!isset($config['session'])) {
 				return;
 			}
 
 			$sessionConfig = $config['session'];
 
 			if (isset($sessionConfig['validators'])) {
-				$chain   = $session->getValidatorChain();
+				$chain = $session->getValidatorChain();
 				foreach ($sessionConfig['validators'] as $validator) {
 					switch ($validator) {
 						case 'Zend\Session\Validator\HttpUserAgent':
 							$validator = new $validator($container->httpUserAgent);
 							break;
 						case 'Zend\Session\Validator\RemoteAddr':
-							$validator  = new $validator($container->remoteAddr);
+							$validator = new $validator($container->remoteAddr);
 							break;
 						default:
 							$validator = new $validator();

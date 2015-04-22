@@ -31,7 +31,7 @@ class JobType extends AbstractHelper
 {
 	public function __invoke($jobType)
 		{
-		switch($jobType)
+		switch ($jobType)
 		{
 				case 'B':
 		  			$output = "Backup";

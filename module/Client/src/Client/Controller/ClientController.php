@@ -14,7 +14,7 @@ class ClientController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'ClientId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -37,14 +37,14 @@ class ClientController extends AbstractActionController
 
 	public function detailsAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				if (!$id) {
 					return $this->redirect()->toRoute('client');
 				}
 
 				$result = $this->getClientTable()->getClient($id);
-				$cmd = 'status client="' . $result->name . '"';
+				$cmd = 'status client="'.$result->name.'"';
 				$this->director = $this->getServiceLocator()->get('director');
 
 				return new ViewModel(

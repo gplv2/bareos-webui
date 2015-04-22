@@ -55,7 +55,7 @@ return array(
 
 	'view_manager' => array(
 			'template_path_stack' => array(
-					'job' => __DIR__ . '/../view',
+					'job' => __DIR__.'/../view',
 				),
 	),
 

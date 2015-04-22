@@ -53,7 +53,7 @@ return array(
 
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'dashboard' => __DIR__ . '/../view',
+			'dashboard' => __DIR__.'/../view',
 		),
 	),
 

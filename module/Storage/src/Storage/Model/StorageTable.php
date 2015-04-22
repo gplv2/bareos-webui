@@ -58,20 +58,20 @@ class StorageTable implements ServiceLocatorAwareInterface
 				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
 		}
 
-	public function fetchAll($paginated=false, $order_by=null, $order=null)
+	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 				$select = new Select();
 				$select->from($bsqlch->strdbcompat("Storage"));
 
-		if($order_by !== null && $order !== null) {
-						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+						$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 				}
 				else {
-						$select->order($bsqlch->strdbcompat("StorageId") . " DESC");
+						$select->order($bsqlch->strdbcompat("StorageId")." DESC");
 				}
 
-		if($paginated) {
+		if ($paginated) {
 						$resultSetPrototype = new ResultSet();
 						$resultSetPrototype->setArrayObjectPrototype(new Storage());
 						$paginatorAdapter = new DbSelect(
@@ -81,8 +81,7 @@ class StorageTable implements ServiceLocatorAwareInterface
 										);
 						$paginator = new Paginator($paginatorAdapter);
 						return $paginator;
-				}
-		else {
+				} else {
 			$resultSet = $this->tableGateway->selectWith($select);
 			return $resultSet;
 		}

@@ -53,7 +53,7 @@ return array(
 
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'admin' => __DIR__ . '/../view',
+			'admin' => __DIR__.'/../view',
 		),
 	),
 

@@ -35,13 +35,13 @@ class DashboardController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 			return new ViewModel(
 				array(
 					'runningJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("running"),
-                                        'waitingJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("waiting"),
-                                        'successfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("successful"),
-                                        'unsuccessfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("unsuccessful"),
+										'waitingJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("waiting"),
+										'successfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("successful"),
+										'unsuccessfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("unsuccessful"),
 				)
 			);
 		} else {
