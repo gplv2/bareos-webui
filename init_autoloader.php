@@ -63,8 +63,7 @@ try {
 			define a ZF2_PATH environment variable in your apache configuration file and do not forget<br />
 			to restart your apache webserver.<br />');
 		}
-}
-catch (Exception $e) {
+} catch (Exception $e) {
 		print $e->getMessage();
 }
 
