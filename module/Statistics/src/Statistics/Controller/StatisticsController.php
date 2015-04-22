@@ -54,7 +54,7 @@ class StatisticsController extends AbstractActionController
 
 	public function getJobTable()
 		{
-				if(!$this->jobTable)
+				if (!$this->jobTable)
 				{
 						$sm = $this->getServiceLocator();
 						$this->jobTable = $sm->get('Job\Model\JobTable');

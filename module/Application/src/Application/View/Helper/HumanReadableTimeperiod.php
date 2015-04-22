@@ -73,8 +73,7 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			$this->result = join(' ', $res)." ago";
 
-		}
-		elseif ($format=="long") {
+		} elseif ($format=="long") {
 
 			$units = array(
 				'Year(s)' => $seconds / 31556926 % 12,
@@ -93,8 +92,7 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			$this->result = join(' ', $res)." ago";
 
-		}
-		elseif ($format=="fuzzy") {
+		} elseif ($format=="fuzzy") {
 
 			$t1 = explode("-", $time);
 			$t2 = explode("-", date("Y-m-d", time("NOW")));
@@ -106,16 +104,13 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			if ($interval < 1) {
 				return $this->result = "today";
-			}
-			elseif ($interval <= 31 && $interval >= 1) {
+			} elseif ($interval <= 31 && $interval >= 1) {
 				$interval = round($interval, 0, PHP_ROUND_HALF_UP);
 				$this->result = "about ".$interval." day(s) ago";
-			}
-			elseif ($interval >= 31 && $interval <= 365) {
+			} elseif ($interval >= 31 && $interval <= 365) {
 				$interval = round($interval / 31, 0, PHP_ROUND_HALF_UP);
 				$this->result = "about ".$interval." month ago";
-			}
-			elseif ($interval > 365) {
+			} elseif ($interval > 365) {
 				$interval = round($interval / 365, 1, PHP_ROUND_HALF_UP);
 				$this->result = "about ".$interval." year(s) ago";
 			}

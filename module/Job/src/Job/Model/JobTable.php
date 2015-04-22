@@ -62,8 +62,7 @@ class JobTable implements ServiceLocatorAwareInterface
 	{
 		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 			$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-		}
-		elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+		} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 			$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 		}
 
@@ -244,11 +243,11 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getLast24HoursSuccessfulJobs($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
 			$interval = "now() - interval 1 day";
 				}
-				elseif ($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 			$interval = "now() - interval '1 day'";
 				}
@@ -307,11 +306,11 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getLast24HoursUnsuccessfulJobs($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
 						$interval = "now() - interval 1 day";
 				}
-				elseif ($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 						$interval = "now() - interval '1 day'";
 				}
@@ -337,19 +336,19 @@ class JobTable implements ServiceLocatorAwareInterface
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 		$select->where(
-			"(" .
-			$bsqlch->strdbcompat("JobStatus") . " = 'A' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'E' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'e' OR " .
-						$bsqlch->strdbcompat("JobStatus") . " = 'f' ) AND (" .
-						$bsqlch->strdbcompat("StartTime") . " >= " . $interval . " OR " .
-						$bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
+			"(".
+			$bsqlch->strdbcompat("JobStatus")." = 'A' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'E' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'e' OR ".
+						$bsqlch->strdbcompat("JobStatus")." = 'f' ) AND (".
+						$bsqlch->strdbcompat("StartTime")." >= ".$interval." OR ".
+						$bsqlch->strdbcompat("EndTime")." >= ".$interval.")"
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("Job.JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("Job.JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -370,10 +369,10 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getJobCountLast24HoursByStatus($status)
 	{
-		if($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 						$interval = "now() - interval 1 day";
 				}
-				elseif($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+				elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 						$interval = "now() - interval '1 day'";
 				}
 
