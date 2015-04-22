@@ -34,19 +34,19 @@ class LogTable implements ServiceLocatorAwareInterface
 				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
 		}
 
-	public function fetchAll($paginated=false, $order_by=null, $order=null)
+	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 				$select = new Select($bsqlch->strdbcompat("Log"));
 
-		if($order_by !== null && $order !== null) {
-						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+						$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 				}
 		else {
-					$select->order($bsqlch->strdbcompat("LogId") . " DESC");
+					$select->order($bsqlch->strdbcompat("LogId")." DESC");
 		}
 
-		if($paginated) {
+		if ($paginated) {
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new Log());
 			$paginatorAdapter = new DbSelect(
@@ -84,8 +84,8 @@ class LogTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Log"));
-		$select->where($bsqlch->strdbcompat("JobId") . " = " . $jobid);
-		$select->order($bsqlch->strdbcompat("LogId") . " DESC");
+		$select->where($bsqlch->strdbcompat("JobId")." = ".$jobid);
+		$select->order($bsqlch->strdbcompat("LogId")." DESC");
 
 		$resultSet = $this->tableGateway->selectWith($select);
 

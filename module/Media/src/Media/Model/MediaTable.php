@@ -64,10 +64,10 @@ class MediaTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select($bsqlch->strdbcompat("Media"));
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("MediaId") . " ASC");
+			$select->order($bsqlch->strdbcompat("MediaId")." ASC");
 		}
 
 		if ($paginated) {
@@ -93,7 +93,7 @@ class MediaTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Media"));
-		$select->where($bsqlch->strdbcompat("MediaId") . " = " . $mediaid);
+		$select->where($bsqlch->strdbcompat("MediaId")." = ".$mediaid);
 
 		$resultSet = $this->tableGateway->selectWith($select);
 		$row = $resultSet->current();
@@ -126,8 +126,8 @@ class MediaTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Media"));
-		$select->where($bsqlch->strdbcompat("PoolId") . " = " . $poolid);
-		$select->order($bsqlch->strdbcompat("MediaId") . " ASC");
+		$select->where($bsqlch->strdbcompat("PoolId")." = ".$poolid);
+		$select->order($bsqlch->strdbcompat("MediaId")." ASC");
 
 		$resultSet = $this->tableGateway->selectWith($select);
 

@@ -35,7 +35,7 @@ class StatisticsController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 			return new ViewModel(
 					array(
 
@@ -44,23 +44,22 @@ class StatisticsController extends AbstractActionController
 						'successfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("successful"),
 						'unsuccessfulJobs' => $this->getJobTable()->getJobCountLast24HoursByStatus("unsuccessful"),
 
-					     )
+						 )
 					);
-		}
-		else {
+		} else {
 			return $this->redirect()->toRoute('auth', array('action' => 'login'));
 		}
 
 	}
 
 	public function getJobTable()
-        {
-                if(!$this->jobTable)
-                {
-                        $sm = $this->getServiceLocator();
-                        $this->jobTable = $sm->get('Job\Model\JobTable');
-                }
-                return $this->jobTable;
-        }
+		{
+				if(!$this->jobTable)
+				{
+						$sm = $this->getServiceLocator();
+						$this->jobTable = $sm->get('Job\Model\JobTable');
+				}
+				return $this->jobTable;
+		}
 
 }

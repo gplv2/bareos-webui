@@ -48,7 +48,7 @@ class Bytes extends AbstractHelper
 		if ($bytes > 0)
 		{
 			$result = log($bytes) / log(1000);
-			$this->bsize = round(pow(1000, $result - ($tmp = floor($result))), 2) . " " . $units[$tmp];
+			$this->bsize = round(pow(1000, $result - ($tmp = floor($result))), 2)." ".$units[$tmp];
 		}
 
 		return $this->bsize;

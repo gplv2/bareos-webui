@@ -105,7 +105,7 @@ class AuthController extends AbstractActionController
 						array(
 							'form' => $form,
 							'err_msg' => $err_msg,
-						     )
+							 )
 						);
 
 			}

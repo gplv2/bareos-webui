@@ -35,7 +35,7 @@ if ($zf2Path) {
 	if (isset($loader)) {
 		$loader->add('Zend', $zf2Path);
 	} else {
-		include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
+		include $zf2Path.'/Zend/Loader/AutoloaderFactory.php';
 		Zend\Loader\AutoloaderFactory::factory(array(
 			'Zend\Loader\StandardAutoloader' => array(
 				'autoregister_zf' => true
@@ -44,7 +44,7 @@ if ($zf2Path) {
 	}
 } else {
 	// Zend Framework available in normal include path? Use it.
-	if( stream_resolve_include_path("Zend/Loader/AutoloaderFactory.php") ) {
+	if (stream_resolve_include_path("Zend/Loader/AutoloaderFactory.php")) {
 		include 'Zend/Loader/AutoloaderFactory.php';
 		Zend\Loader\AutoloaderFactory::factory(array(
 				'Zend\Loader\StandardAutoloader' => array(
@@ -64,7 +64,7 @@ try {
 			to restart your apache webserver.<br />');
 		}
 }
-catch(Exception $e) {
+catch (Exception $e) {
 		print $e->getMessage();
 }
 

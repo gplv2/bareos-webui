@@ -35,15 +35,15 @@ class Date extends AbstractHelper
 
 	public function __invoke($dateString, $mode = 'iso8601')
 	{
-		if ($dateString == '0000-00-00 00:00:00' || $dateString == '') {
+		if ($dateString=='0000-00-00 00:00:00' || $dateString=='') {
 			return '-';
 		}
         
 		switch ($mode) {
-		case 'full':
-		$dateType = IntlDateFormatter::FULL;
-		$timeType = IntlDateFormatter::FULL;
-		break;
+			case 'full':
+			$dateType = IntlDateFormatter::FULL;
+			$timeType = IntlDateFormatter::FULL;
+			break;
 			case 'long':
 				$dateType = IntlDateFormatter::LONG;
 				$timeType = IntlDateFormatter::LONG;
@@ -56,9 +56,9 @@ class Date extends AbstractHelper
 				$dateType = IntlDateFormatter::MEDIUM;
 				$timeType = IntlDateFormatter::MEDIUM;
 				break;
-		default:
-		case 'iso8601':
-		return $dateString;
+			default:
+			case 'iso8601':
+			return $dateString;
 		}
         
 		$dateTime = new DateTime($dateString);

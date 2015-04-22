@@ -57,20 +57,20 @@ class FilesetTable implements ServiceLocatorAwareInterface
 				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
 		}
 
-	public function fetchAll($paginated=false, $order_by=null, $order=null)
+	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("FileSet"));
 
-		if($order_by !== null && $order !== null) {
-						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+						$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 				}
 				else {
-						$select->order($bsqlch->strdbcompat("FileSetId") . " DESC");
+						$select->order($bsqlch->strdbcompat("FileSetId")." DESC");
 				}
 
-		if($paginated) {
+		if ($paginated) {
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new Fileset());
 			$paginatorAdapter = new DbSelect(
@@ -105,8 +105,8 @@ class FilesetTable implements ServiceLocatorAwareInterface
 				$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 				$select = new Select();
 				$select->from($bsqlch->strdbcompat("FileSet"));
-				$select->where($bsqlch->strdbcompat("FileSet") . " = '". $fset->fileset . "'");
-				$select->order($bsqlch->strdbcompat("CreateTime") . " DESC");
+				$select->where($bsqlch->strdbcompat("FileSet")." = '".$fset->fileset."'");
+				$select->order($bsqlch->strdbcompat("CreateTime")." DESC");
 
 				$resultSet = $this->tableGateway->selectWith($select);
 

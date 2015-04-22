@@ -55,7 +55,7 @@ return array(
 
 	'view_manager' => array(
 			'template_path_stack' => array(
-					'log' => __DIR__ . '/../view',
+					'log' => __DIR__.'/../view',
 				),
 	),
 

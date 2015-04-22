@@ -52,7 +52,7 @@ return array(
 	
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'director' => __DIR__ . '/../view',
+			'director' => __DIR__.'/../view',
 		),
 	),
 
