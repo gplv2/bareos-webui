@@ -29,7 +29,6 @@ namespace Install\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Version\Version;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Sql\Sql;
 use Zend\Db\ResultSet\ResultSet;
 use Bareos\Db\Sql\BareosSqlCompatHelper;
