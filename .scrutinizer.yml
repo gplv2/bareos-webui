@@ -1,8 +1,11 @@
 build:
+    dependencies:
+        before:
+            - mysql -uroot -e 'CREATE DATABASE bareos_test'
     tests:
         override:
             -
-                command: "phpunit --log-junit './unitreport.xml' --coverage-clover './clover.xml'"
+                command: "phpunit --log-junit './unitreport.xml' --coverage-clover './clover.xml' tests/"
                 coverage:
                     file: 'clover.xml'
                     format: 'php-clover'
