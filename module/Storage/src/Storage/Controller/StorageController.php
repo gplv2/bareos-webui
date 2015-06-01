@@ -37,7 +37,7 @@ class StorageController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'StorageId';
 						$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 						$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -61,13 +61,13 @@ class StorageController extends AbstractActionController
 
 	public function detailsAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				if (!$id) {
 					return $this->redirect()->toRoute('storage');
 				}
 				$result = $this->getStorageTable()->getStorage($id);
-				$cmd = "status storage=" . $result->name;
+				$cmd = "status storage=".$result->name;
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'bconsoleOutput' => $this->director->send_command($cmd),
@@ -80,13 +80,13 @@ class StorageController extends AbstractActionController
 
 	public function autochangerAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				if (!$id) {
 					return $this->redirect()->toRoute('storage');
 				}
 				$result = $this->getStorageTable()->getStorage($id);
-				$cmd = "status storage=" . $result->name . " slots";
+				$cmd = "status storage=".$result->name." slots";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(array(
 						'bconsoleOutput' => $this->director->send_command($cmd),

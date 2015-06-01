@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ http://framework.zend.com/manual/1.12/en/zend.test.phpunit.html
  */
 
 namespace DashboardTest\Controller;
@@ -29,7 +30,7 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class DashboardControllerTest extends AbstractHttpControllerTestCase
 {
-	
+
 	protected $traceError = true;
 
 	public function setUp() 
@@ -41,12 +42,32 @@ class DashboardControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed() 
 	{
+                $director = 'localhost-dir';
+                $username = 'backup';
+                $password = 'orchestra1.';
+		// $routeMatch = $this->getApplication()->getMvcEvent()->getRouteMatch();
+		
+		// echo "Testing login" . PHP_EOL;
+		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
+		//$this->assertNotRedirect();
+		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(302);
+		$this->reset(true);
+		//$app = $this->getRequest();
+		//print_r($app);
+		// echo "Dashboard" . PHP_EOL;
+
 		$this->dispatch('/dashboard');
 		$this->assertResponseStatusCode(200);
+		//$this->assertRedirectRegex('/dashboard/');
+/*
+		$this->assertRedirectRegex('/auth\/login/');
 		$this->assertModuleName('Dashboard');
 		$this->assertControllerName('Dashboard\Controller\Dashboard');
 		$this->assertControllerClass('DashboardController');
 		$this->assertMatchedRouteName('dashboard');
+*/
+
 	}
 
 }

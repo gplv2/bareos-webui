@@ -1,21 +1,36 @@
 <?php
 
 namespace JobTest;
+ob_start();
 
 use Zend\Loader\AutoloaderFactory;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
+use Zend\Stdlib\ArrayUtils;
+
 use RuntimeException;
 
 error_reporting(E_ALL | E_STRICT);
 chdir(__DIR__);
+define ('APPLICATION_ENV', 'development');
+define ('APP_ENV', 'development');
 
 class Bootstrap 
 {
 	protected static $serviceManager;
+ 	protected static $config;
+    	protected static $bootstrap;
 
 	public static function init()
 	{
+
+		// Load the user-defined test configuration file, if it exists; otherwise, load
+		// echo __DIR__ . '/../config/autoload/local.php' . PHP_EOL; exit;
+		if (file_exists(__DIR__ . '/../config/autoload/local.php.dist')) {
+			$testConfig = include __DIR__ . '/../config/autoload/local.php.dist';
+		}
+
 		$zf2ModulePaths = array(dirname(dirname(__DIR__)));
 		if (($path = static::findParentPath('vendor'))) {
 			$zf2ModulePaths[] = $path;
@@ -28,14 +43,30 @@ class Bootstrap
 
 		// use ModuleManager to load this module and it's dependencies
 		$config = array(
-			'module_listener_options' => array('module_paths' => $zf2ModulePaths,),
-			'modules' => array('Job')
+			'modules' => array('Application','Job','Auth','Client'),
+			'module_listener_options' => array('module_paths' => $zf2ModulePaths,
+				'module_paths' => array(
+					'../module',
+					'../vendor',
+					),
+				// An array of paths from which to glob configuration files after
+				// modules are loaded. These effectively override configuration
+				// provided by modules themselves. Paths may use GLOB_BRACE notation.
+				'config_glob_paths' => array(
+					'../config/autoload/{,*.}{global,local}.php',
+					),
+				)
+
 		);
+
+		//$config = ArrayUtils::merge($baseConfig, $testConfig);
 
 		$serviceManager = new ServiceManager(new ServiceManagerConfig());
 		$serviceManager->setService('ApplicationConfig', $config);
 		$serviceManager->get('ModuleManager')->loadModules();
+
 		static::$serviceManager = $serviceManager;
+		static::$config = $config;
 	}
 
 	public static function chroot()
@@ -47,6 +78,11 @@ class Bootstrap
 	public static function getServiceManager() 
 	{
 		return static::$serviceManager;
+	}
+
+	public static function getConfig()
+	{
+		return static::$config;
 	}
 
 	protected static function initAutoloader() 
@@ -104,4 +140,3 @@ class Bootstrap
 
 Bootstrap::init();
 Bootstrap::chroot();
-

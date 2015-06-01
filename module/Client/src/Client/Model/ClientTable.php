@@ -34,20 +34,19 @@ class ClientTable implements ServiceLocatorAwareInterface
 				return $config['db']['adapters'][$_SESSION['bareos']['director']]['driver'];
 		}
 
-	public function fetchAll($paginated=false, $order_by=null, $order=null)
+	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Client"));
 
-		if($order_by !== null && $order !== null) {
-						$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
-				}
-				else {
-						$select->order($bsqlch->strdbcompat("ClientId") . " DESC");
+		if ($order_by!==null && $order!==null) {
+						$select->order($bsqlch->strdbcompat($order_by)." ".$order);
+				} else {
+						$select->order($bsqlch->strdbcompat("ClientId")." DESC");
 				}
 
-		if($paginated) {
+		if ($paginated) {
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new Client());
 			$paginatorAdapter = new DbSelect(
@@ -70,7 +69,7 @@ class ClientTable implements ServiceLocatorAwareInterface
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());	
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Client"));
-		$select->where($bsqlch->strdbcompat("ClientId") . " = " . $id);
+		$select->where($bsqlch->strdbcompat("ClientId")." = ".$id);
 		
 		$rowset = $this->tableGateway->selectWith($select);
 		$row = $rowset->current();

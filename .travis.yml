@@ -10,8 +10,8 @@ env:
   - DB=postgres
 
 before_install:
-  - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - ./composer.phar self-update
+  - ./composer.phar install --prefer-source --no-interaction --dev
 
 before_script:
   - psql -c 'create database bareos;' -U postgres
@@ -23,7 +23,7 @@ branches:
   only:
     - master
 
-script: phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml'
+script: phpunit --log-junit 'unitreport.xml' --coverage-clover 'clover.xml' tests/
 
 after_script:
 

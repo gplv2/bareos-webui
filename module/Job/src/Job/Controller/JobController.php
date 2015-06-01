@@ -39,7 +39,7 @@ class JobController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -63,7 +63,7 @@ class JobController extends AbstractActionController
 
 	public function detailsAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				if (!$id) {
 					return $this->redirect()->toRoute('job');
@@ -80,7 +80,7 @@ class JobController extends AbstractActionController
 
 	public function runningAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -104,7 +104,7 @@ class JobController extends AbstractActionController
 
 	public function waitingAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -128,7 +128,7 @@ class JobController extends AbstractActionController
 
 	public function unsuccessfulAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -152,7 +152,7 @@ class JobController extends AbstractActionController
 
 	public function successfulAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'JobId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -176,13 +176,90 @@ class JobController extends AbstractActionController
 
 	public function rerunAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		// Keep the connection open if we need to issue multiple director commands
+		$flags = new \stdClass;
+		$flags->keepalive = true;
+
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
-				$cmd = "rerun jobid=" . $jobid . " yes";
+
+				$cmd = "rerun jobid=".$jobid." yes";
 				$this->director = $this->getServiceLocator()->get('director');
+				$output = $this->director->send_command($cmd, $flags);
+
+				// Rerun not supported. We deal with old bareos or bacula.
+				if (preg_match('/rerun: is an invalid command/', $output, $match)) {
+
+					// 'list' needs to be in the commandACl list for this to work!
+					$cmd = "list jobid=".$jobid;
+					$output = $this->director->send_command($cmd, $flags);
+
+					// parse output and construct a run command
+					$values = array();
+					$headers = array();
+					$res = array();
+					$gotheaders = false;
+					$gotvalues = false;
+					foreach (preg_split("/((\r?\n)|(\r\n?))/", $output) as $line) {
+						// all nice lines start with |
+						$pos = strpos($line, '|');
+						if ($pos===false) {
+							// Skip lines not starting with |
+							continue;
+						}
+
+						// now find the result header
+						if (preg_match_all("/\s+(.*)+\s+/", $line, $keys) and !$gotheaders) {
+							$headers = explode('|', $line);
+							foreach ($headers as $hk => $hv) {
+								if (!strlen($hv)) {
+									unset($headers[$hk]);	
+								} else {
+									$headers[$hk] = trim($hv);
+								}
+								$gotheaders = true;
+							}
+						} elseif ($gotheaders && !$gotvalues) {
+							$values = explode('|', $line);
+							foreach ($values as $vk => $vv) {
+								if (!strlen($vv)) {
+									unset($values[$vk]);	
+								} else {
+									$values[$vk] = trim($vv);
+								}
+								$gotvalues = true;
+							}
+						} 
+						if ($gotvalues) {
+							$res = array_combine($headers, $values);
+							if (!empty($res['Level'])) {
+									switch ($res['Level']) {
+										case 'D':
+											$res['Level'] = "Differential";
+											break;
+										case 'I':
+											$res['Level'] = "Incremental";
+											break;
+										case 'F':
+											$res['Level'] = "Full";
+											break;
+									}
+							}
+							break; 
+							// we only expect 1 result back from this command
+						}
+					}
+					if (!empty($res)) {
+						$cmd = sprintf("run job=\"%s\" level=%s yes", $res['Name'], $res['Level']);
+						$output = $this->director->send_command($cmd);
+					}
+				}
+				//echo $line . PHP_EOL;
+
 				return new ViewModel(
 						array(
-							'bconsoleOutput' => $this->director->send_command($cmd),
+							//'bconsoleOutput' => print_r($res,true),
+							'bconsoleOutput' => $output,
 							'jobid' => $jobid,
 						)
 				);
@@ -193,9 +270,9 @@ class JobController extends AbstractActionController
 
 	public function cancelAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$jobid = (int) $this->params()->fromRoute('id', 0);
-				$cmd = "cancel jobid=" . $jobid . " yes";
+				$cmd = "cancel jobid=".$jobid." yes";
 				$this->director = $this->getServiceLocator()->get('director');
 				return new ViewModel(
 						array(
@@ -209,7 +286,7 @@ class JobController extends AbstractActionController
 
 	public function getJobTable()
 	{
-		if(!$this->jobTable)
+		if (!$this->jobTable)
 		{
 			$sm = $this->getServiceLocator();
 			$this->jobTable = $sm->get('Job\Model\JobTable');

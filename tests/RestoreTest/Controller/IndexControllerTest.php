@@ -41,6 +41,7 @@ class RestoreControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed() 
 	{
+		// Apparantly no redirect either when visiting restore.. just like /admin
 		$this->dispatch('/restore');
 		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Restore');

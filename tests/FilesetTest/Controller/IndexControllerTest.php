@@ -41,12 +41,22 @@ class FilesetControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed()
 	{
-		$this->dispatch('/fileset');
+                $director = 'localhost-dir';
+                $username = 'backup';
+                $password = 'orchestra1.';
+
+		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
+		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(302);
+		
+		$this->reset(true);
+		$this->dispatch('/fileset//');
 		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Fileset');
 		$this->assertControllerName('Fileset\Controller\Fileset');
 		$this->assertControllerClass('FilesetController');
 		$this->assertMatchedRouteName('fileset');
+
 	}
 
 }

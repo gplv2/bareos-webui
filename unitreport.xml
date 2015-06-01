@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="tests/" tests="11" assertions="56" failures="1" errors="2" time="20.073751">
+    <testsuite name="AdminTest\Controller\AdminControllerTest" file="/usr/share/bareos-webui_bck/tests/AdminTest/Controller/IndexControllerTest.php" tests="1" assertions="15" failures="0" errors="0" time="4.029391">
+      <testcase name="testIndexActionCanBeAccessed" class="AdminTest\Controller\AdminControllerTest" file="/usr/share/bareos-webui_bck/tests/AdminTest/Controller/IndexControllerTest.php" line="42" assertions="15" time="4.029391"/>
+    </testsuite>
+    <testsuite name="ClientTest\Controller\ClientControllerTest" file="/usr/share/bareos-webui_bck/tests/ClientTest/Controller/IndexControllerTest.php" tests="1" assertions="7" failures="0" errors="0" time="2.747066">
+      <testcase name="testIndexActionCanBeAccessed" class="ClientTest\Controller\ClientControllerTest" file="/usr/share/bareos-webui_bck/tests/ClientTest/Controller/IndexControllerTest.php" line="41" assertions="7" time="2.747066"/>
+    </testsuite>
+    <testsuite name="ClientTest\Model\ClientTableTest" file="/usr/share/bareos-webui_bck/tests/ClientTest/Model/ClientTableTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.015725">
+      <testcase name="testFetchAllReturnsAllClients" class="ClientTest\Model\ClientTableTest" file="/usr/share/bareos-webui_bck/tests/ClientTest/Model/ClientTableTest.php" line="50" assertions="0" time="0.015725">
+        <error type="PHPUnit_Framework_Error_Notice">ClientTest\Model\ClientTableTest::testFetchAllReturnsAllClients
+Undefined property: Client\Model\ClientTable::$serviceLocator
+
+/usr/share/bareos-webui_bck/module/Client/src/Client/Model/ClientTable.php:29
+/usr/share/bareos-webui_bck/module/Client/src/Client/Model/ClientTable.php:33
+/usr/share/bareos-webui_bck/module/Client/src/Client/Model/ClientTable.php:39
+/usr/share/bareos-webui_bck/tests/ClientTest/Model/ClientTableTest.php:61
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="DashboardTest\Controller\DashboardControllerTest" file="/usr/share/bareos-webui_bck/tests/DashboardTest/Controller/IndexControllerTest.php" tests="1" assertions="3" failures="0" errors="0" time="2.408965">
+      <testcase name="testIndexActionCanBeAccessed" class="DashboardTest\Controller\DashboardControllerTest" file="/usr/share/bareos-webui_bck/tests/DashboardTest/Controller/IndexControllerTest.php" line="43" assertions="3" time="2.408965"/>
+    </testsuite>
+    <testsuite name="DirectorTest\Controller\DirectorControllerTest" file="/usr/share/bareos-webui_bck/tests/DirectorTest/Controller/IndexControllerTest.php" tests="1" assertions="7" failures="0" errors="0" time="2.342843">
+      <testcase name="testIndexActionCanBeAccessed" class="DirectorTest\Controller\DirectorControllerTest" file="/usr/share/bareos-webui_bck/tests/DirectorTest/Controller/IndexControllerTest.php" line="42" assertions="7" time="2.342843"/>
+    </testsuite>
+    <testsuite name="FilesetTest\Controller\FilesetControllerTest" file="/usr/share/bareos-webui_bck/tests/FilesetTest/Controller/IndexControllerTest.php" tests="1" assertions="7" failures="0" errors="0" time="2.470904">
+      <testcase name="testIndexActionCanBeAccessed" class="FilesetTest\Controller\FilesetControllerTest" file="/usr/share/bareos-webui_bck/tests/FilesetTest/Controller/IndexControllerTest.php" line="42" assertions="7" time="2.470904"/>
+    </testsuite>
+    <testsuite name="FilesetTest\Model\FilesetTableTest" file="/usr/share/bareos-webui_bck/tests/FilesetTest/Model/FilesetTableTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.009100">
+      <testcase name="testFetchAllReturnsAllFilesets" class="FilesetTest\Model\FilesetTableTest" file="/usr/share/bareos-webui_bck/tests/FilesetTest/Model/FilesetTableTest.php" line="36" assertions="0" time="0.009100">
+        <error type="PHPUnit_Framework_Error_Notice">FilesetTest\Model\FilesetTableTest::testFetchAllReturnsAllFilesets
+Undefined property: Fileset\Model\FilesetTable::$serviceLocator
+
+/usr/share/bareos-webui_bck/module/Fileset/src/Fileset/Model/FilesetTable.php:52
+/usr/share/bareos-webui_bck/module/Fileset/src/Fileset/Model/FilesetTable.php:56
+/usr/share/bareos-webui_bck/module/Fileset/src/Fileset/Model/FilesetTable.php:62
+/usr/share/bareos-webui_bck/tests/FilesetTest/Model/FilesetTableTest.php:55
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="Login\Controller\LoginControllerTest" file="/usr/share/bareos-webui_bck/tests/Login/Controller/IndexControllerTest.php" tests="1" assertions="0" failures="1" errors="0" time="0.825747">
+      <testcase name="testIndexActionCanBeAccessed" class="Login\Controller\LoginControllerTest" file="/usr/share/bareos-webui_bck/tests/Login/Controller/IndexControllerTest.php" line="43" assertions="0" time="0.825747">
+        <failure type="PHPUnit_Framework_ExpectationFailedException">Login\Controller\LoginControllerTest::testIndexActionCanBeAccessed
+Failed asserting response is NOT a redirect, actual redirection is "/dashboard/"
+
+/usr/share/bareos-webui_bck/vendor/zendframework/zendframework/library/Zend/Test/PHPUnit/Controller/AbstractHttpControllerTestCase.php:260
+/usr/share/bareos-webui_bck/tests/Login/Controller/IndexControllerTest.php:54
+</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="RestoreTest\Controller\RestoreControllerTest" file="/usr/share/bareos-webui_bck/tests/RestoreTest/Controller/IndexControllerTest.php" tests="1" assertions="5" failures="0" errors="0" time="1.405827">
+      <testcase name="testIndexActionCanBeAccessed" class="RestoreTest\Controller\RestoreControllerTest" file="/usr/share/bareos-webui_bck/tests/RestoreTest/Controller/IndexControllerTest.php" line="42" assertions="5" time="1.405827"/>
+    </testsuite>
+    <testsuite name="StatisticsTest\Controller\StatisticsControllerTest" file="/usr/share/bareos-webui_bck/tests/Statistics/Controller/IndexControllerTest.php" tests="1" assertions="7" failures="0" errors="0" time="2.425497">
+      <testcase name="testIndexActionCanBeAccessed" class="StatisticsTest\Controller\StatisticsControllerTest" file="/usr/share/bareos-webui_bck/tests/Statistics/Controller/IndexControllerTest.php" line="42" assertions="7" time="2.425497"/>
+    </testsuite>
+    <testsuite name="UserTest\Controller\UserControllerTest" file="/usr/share/bareos-webui_bck/tests/UserTest/Controller/IndexControllerTest.php" tests="1" assertions="5" failures="0" errors="0" time="1.392686">
+      <testcase name="testIndexActionCanBeAccessed" class="UserTest\Controller\UserControllerTest" file="/usr/share/bareos-webui_bck/tests/UserTest/Controller/IndexControllerTest.php" line="42" assertions="5" time="1.392686"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

@@ -41,6 +41,16 @@ class StatisticsControllerTest extends AbstractHttpControllerTestCase
 
 	public function testIndexActionCanBeAccessed() 
 	{
+
+                $director = 'localhost-dir';
+                $username = 'backup';
+                $password = 'orchestra1.';
+		
+		$this->dispatch('/auth/login', 'POST', array('director' => $director, 'consolename' => $username , 'password' => $password, 'submit'=>'Login'));
+		$this->assertRedirectRegex('/dashboard/');
+		$this->assertResponseStatusCode(302);
+
+		$this->reset(true);
 		$this->dispatch('/statistics');
 		$this->assertResponseStatusCode(200);
 		$this->assertModuleName('Statistics');

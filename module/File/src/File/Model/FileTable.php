@@ -63,7 +63,7 @@ class FileTable implements ServiceLocatorAwareInterface
 		if ($paginated) {
 			$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 			$select = new Select($bsqlch->strdbcompat("File"));
-			$select->order($bsqlch->strdbcompat("FileId") . " DESC");
+			$select->order($bsqlch->strdbcompat("FileId")." DESC");
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new File());
 			$paginatorAdapter = new DbSelect(
@@ -102,7 +102,7 @@ class FileTable implements ServiceLocatorAwareInterface
 				$bsqlch->strdbcompat("Filename"), 
 				$bsqlch->strdbcompat("File.FilenameId = Filename.FilenameId")
 			);
-			$select->where($bsqlch->strdbcompat("File.JobId") . " = '" . $jobid . "'");
+			$select->where($bsqlch->strdbcompat("File.JobId")." = '".$jobid."'");
 			$resultSetPrototype = new ResultSet();
 			$resultSetPrototype->setArrayObjectPrototype(new File());
 			$paginatorAdapter = new DbSelect(

@@ -36,7 +36,7 @@ class FilesetController extends AbstractActionController
 
 	public function indexAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$order_by = $this->params()->fromRoute('order_by') ? $this->params()->fromRoute('order_by') : 'FileSetId';
 				$order = $this->params()->fromRoute('order') ? $this->params()->fromRoute('order') : 'DESC';
 				$limit = $this->params()->fromRoute('limit') ? $this->params()->fromRoute('limit') : '25';
@@ -59,10 +59,10 @@ class FilesetController extends AbstractActionController
 
 	public function detailsAction()
 	{
-		if ($_SESSION['bareos']['authenticated'] === true) {
+		if ($_SESSION['bareos']['authenticated']===true) {
 				$id = (int) $this->params()->fromRoute('id', 0);
 				$fset = $this->getFilesetTable()->getFileSet($id);
-				$cmd = 'show fileset="' . $fset->fileset . '"';
+				$cmd = 'show fileset="'.$fset->fileset.'"';
 				$this->director = $this->getServiceLocator()->get('director');
 
 				if (!$id) {

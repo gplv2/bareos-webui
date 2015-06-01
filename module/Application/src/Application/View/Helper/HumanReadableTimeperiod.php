@@ -42,10 +42,10 @@ class HumanReadableTimeperiod extends AbstractHelper
 	 * @param
 	 * @param
 	 */
-	public function __invoke($time, $format="short")
+	public function __invoke($time, $format = "short")
 	{
 
-	if($time == "0000-00-00 00:00:00" || empty($time)) {
+	if ($time=="0000-00-00 00:00:00" || empty($time)) {
 		return $this->result = "never";
 	} else {
 
@@ -54,7 +54,7 @@ class HumanReadableTimeperiod extends AbstractHelper
 		$timestamp = date_format($dateTime, 'U');
 		$seconds = time() - $timestamp;
 
-		if ($format == "short") {
+		if ($format=="short") {
 
 			$units = array(
 				'y' => $seconds / 31556926 % 12,
@@ -67,14 +67,13 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			foreach ($units as $key => $value) {
 				if ($value > 0) {
-					$res[] = $value . $key;
+					$res[] = $value.$key;
 				}
 			}
 
-			$this->result = join(' ', $res) . " ago";
+			$this->result = join(' ', $res)." ago";
 
-		}
-		elseif ($format == "long") {
+		} elseif ($format=="long") {
 
 			$units = array(
 				'Year(s)' => $seconds / 31556926 % 12,
@@ -87,14 +86,13 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			foreach ($units as $key => $value) {
 				if ($value > 0) {
-					$res[] = $value . $key;
+					$res[] = $value.$key;
 				}
 			}
 
-			$this->result = join(' ', $res) . " ago";
+			$this->result = join(' ', $res)." ago";
 
-		}
-		elseif ($format == "fuzzy") {
+		} elseif ($format=="fuzzy") {
 
 			$t1 = explode("-", $time);
 			$t2 = explode("-", date("Y-m-d", time("NOW")));
@@ -106,18 +104,15 @@ class HumanReadableTimeperiod extends AbstractHelper
 
 			if ($interval < 1) {
 				return $this->result = "today";
-			}
-			elseif ($interval <= 31 && $interval >= 1) {
+			} elseif ($interval <= 31 && $interval >= 1) {
 				$interval = round($interval, 0, PHP_ROUND_HALF_UP);
-				$this->result = "about " . $interval . " day(s) ago";
-			}
-			elseif ($interval >= 31 && $interval <= 365) {
+				$this->result = "about ".$interval." day(s) ago";
+			} elseif ($interval >= 31 && $interval <= 365) {
 				$interval = round($interval / 31, 0, PHP_ROUND_HALF_UP);
-				$this->result = "about " . $interval . " month ago";
-			}
-			elseif ($interval > 365) {
+				$this->result = "about ".$interval." month ago";
+			} elseif ($interval > 365) {
 				$interval = round($interval / 365, 1, PHP_ROUND_HALF_UP);
-				$this->result = "about " . $interval . " year(s) ago";
+				$this->result = "about ".$interval." year(s) ago";
 			}
 
 		}

@@ -46,11 +46,11 @@ class JobTable implements ServiceLocatorAwareInterface
 	}
 
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-    		$this->serviceLocator = $serviceLocator;
+			$this->serviceLocator = $serviceLocator;
   	}
 
   	public function getServiceLocator() {
-    		return $this->serviceLocator;
+			return $this->serviceLocator;
   	}
 
 	public function getDbDriverConfig() {
@@ -60,10 +60,9 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
 			$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-		}
-		elseif ($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+		} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
 			$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 		}
 
@@ -88,10 +87,10 @@ class JobTable implements ServiceLocatorAwareInterface
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -123,7 +122,7 @@ class JobTable implements ServiceLocatorAwareInterface
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 		$select->where(
-			$bsqlch->strdbcompat("JobId") . "=" . $jobid
+			$bsqlch->strdbcompat("JobId")."=".$jobid
 		);
 
 		$rowset = $this->tableGateway->selectWith($select);
@@ -140,31 +139,31 @@ class JobTable implements ServiceLocatorAwareInterface
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 		$select->columns(array(
-                                $bsqlch->strdbcompat("JobId"),
-                                $bsqlch->strdbcompat("Name"),
-                                $bsqlch->strdbcompat("Type"),
-                                $bsqlch->strdbcompat("Level"),
-                                $bsqlch->strdbcompat("StartTime"),
-                                $bsqlch->strdbcompat("EndTime"),
-                                $bsqlch->strdbcompat("JobBytes"),
-                                $bsqlch->strdbcompat("JobStatus"),
-                                $bsqlch->strdbcompat("ClientId")
-                        )
-                );
+								$bsqlch->strdbcompat("JobId"),
+								$bsqlch->strdbcompat("Name"),
+								$bsqlch->strdbcompat("Type"),
+								$bsqlch->strdbcompat("Level"),
+								$bsqlch->strdbcompat("StartTime"),
+								$bsqlch->strdbcompat("EndTime"),
+								$bsqlch->strdbcompat("JobBytes"),
+								$bsqlch->strdbcompat("JobStatus"),
+								$bsqlch->strdbcompat("ClientId")
+						)
+				);
 		$select->join(
 			$bsqlch->strdbcompat("Client"),
 			$bsqlch->strdbcompat("Job.ClientId = Client.ClientId"),
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 		$select->where(
-			$bsqlch->strdbcompat("JobStatus") . " = 'R' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'l'"
+			$bsqlch->strdbcompat("JobStatus")." = 'R' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'l'"
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -189,41 +188,41 @@ class JobTable implements ServiceLocatorAwareInterface
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 		$select->columns(array(
-                                $bsqlch->strdbcompat("JobId"),
-                                $bsqlch->strdbcompat("Name"),
-                                $bsqlch->strdbcompat("Type"),
-                                $bsqlch->strdbcompat("Level"),
-                                $bsqlch->strdbcompat("StartTime"),
-                                $bsqlch->strdbcompat("EndTime"),
-                                $bsqlch->strdbcompat("JobBytes"),
-                                $bsqlch->strdbcompat("JobStatus"),
-                                $bsqlch->strdbcompat("ClientId")
-                        )
-                );
+								$bsqlch->strdbcompat("JobId"),
+								$bsqlch->strdbcompat("Name"),
+								$bsqlch->strdbcompat("Type"),
+								$bsqlch->strdbcompat("Level"),
+								$bsqlch->strdbcompat("StartTime"),
+								$bsqlch->strdbcompat("EndTime"),
+								$bsqlch->strdbcompat("JobBytes"),
+								$bsqlch->strdbcompat("JobStatus"),
+								$bsqlch->strdbcompat("ClientId")
+						)
+				);
 		$select->join(
 			$bsqlch->strdbcompat("Client"),
 			$bsqlch->strdbcompat("Job.ClientId = Client.ClientId"),
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 		$select->where(
-			$bsqlch->strdbcompat("JobStatus") . " = 'F' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'S' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'm' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'M' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 's' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'j' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'c' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'd' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 't' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'p' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'q' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'C'"
+			$bsqlch->strdbcompat("JobStatus")." = 'F' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'S' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'm' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'M' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 's' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'j' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'c' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'd' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 't' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'p' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'q' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'C'"
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("Job.JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("Job.JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -244,31 +243,30 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getLast24HoursSuccessfulJobs($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
-                        $duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
+						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
 			$interval = "now() - interval 1 day";
-                }
-                elseif ($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
-                        $duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
 			$interval = "now() - interval '1 day'";
-                }
+				}
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 		$select->columns(array(
-                                $bsqlch->strdbcompat("JobId"),
-                                $bsqlch->strdbcompat("Name"),
-                                $bsqlch->strdbcompat("Type"),
-                                $bsqlch->strdbcompat("Level"),
-                                $bsqlch->strdbcompat("StartTime"),
-                                $bsqlch->strdbcompat("EndTime"),
+								$bsqlch->strdbcompat("JobId"),
+								$bsqlch->strdbcompat("Name"),
+								$bsqlch->strdbcompat("Type"),
+								$bsqlch->strdbcompat("Level"),
+								$bsqlch->strdbcompat("StartTime"),
+								$bsqlch->strdbcompat("EndTime"),
 				$bsqlch->strdbcompat("JobBytes"),
-                                $bsqlch->strdbcompat("JobStatus"),
+								$bsqlch->strdbcompat("JobStatus"),
 				$bsqlch->strdbcompat("ClientId"),
-                                'duration' => $duration,
-                        )
-                );
+								'duration' => $duration,
+						)
+				);
 		$select->join(
 			$bsqlch->strdbcompat("Client"),
 			$bsqlch->strdbcompat("Job.ClientId = Client.ClientId"),
@@ -276,17 +274,17 @@ class JobTable implements ServiceLocatorAwareInterface
 		);
 
 		$select->where(
-			"(" .
-			$bsqlch->strdbcompat("JobStatus") . " = 'T' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'W' ) AND (" .
-			$bsqlch->strdbcompat("StartTime") . " >= " . $interval . " OR " .
-			$bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
+			"(".
+			$bsqlch->strdbcompat("JobStatus")." = 'T' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'W' ) AND (".
+			$bsqlch->strdbcompat("StartTime")." >= ".$interval." OR ".
+			$bsqlch->strdbcompat("EndTime")." >= ".$interval.")"
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("Job.JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("Job.JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -307,49 +305,48 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getLast24HoursUnsuccessfulJobs($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
-                        $duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-                        $interval = "now() - interval 1 day";
-                }
-                elseif ($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
-                        $duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
-                        $interval = "now() - interval '1 day'";
-                }
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
+						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
+						$interval = "now() - interval 1 day";
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
+						$interval = "now() - interval '1 day'";
+				}
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 		$select->columns(array(
-                                $bsqlch->strdbcompat("JobId"),
-                                $bsqlch->strdbcompat("Name"),
-                                $bsqlch->strdbcompat("Type"),
-                                $bsqlch->strdbcompat("Level"),
-                                $bsqlch->strdbcompat("StartTime"),
-                                $bsqlch->strdbcompat("EndTime"),
-                                $bsqlch->strdbcompat("JobStatus"),
+								$bsqlch->strdbcompat("JobId"),
+								$bsqlch->strdbcompat("Name"),
+								$bsqlch->strdbcompat("Type"),
+								$bsqlch->strdbcompat("Level"),
+								$bsqlch->strdbcompat("StartTime"),
+								$bsqlch->strdbcompat("EndTime"),
+								$bsqlch->strdbcompat("JobStatus"),
 				$bsqlch->strdbcompat("ClientId"),
-                                'duration' => $duration,
-                        )
-                );
+								'duration' => $duration,
+						)
+				);
 		$select->join(
 			$bsqlch->strdbcompat("Client"),
 			$bsqlch->strdbcompat("Job.ClientId = Client.ClientId"),
 			array($bsqlch->strdbcompat("ClientName") => $bsqlch->strdbcompat("Name"))
 		);
 		$select->where(
-			"(" .
-			$bsqlch->strdbcompat("JobStatus") . " = 'A' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'E' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'e' OR " .
-                        $bsqlch->strdbcompat("JobStatus") . " = 'f' ) AND (" .
-                        $bsqlch->strdbcompat("StartTime") . " >= " . $interval . " OR " .
-                        $bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
+			"(".
+			$bsqlch->strdbcompat("JobStatus")." = 'A' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'E' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'e' OR ".
+						$bsqlch->strdbcompat("JobStatus")." = 'f' ) AND (".
+						$bsqlch->strdbcompat("StartTime")." >= ".$interval." OR ".
+						$bsqlch->strdbcompat("EndTime")." >= ".$interval.")"
 		);
 
-		if ($order_by !== null && $order !== null) {
-			$select->order($bsqlch->strdbcompat($order_by) . " " . $order);
+		if ($order_by!==null && $order!==null) {
+			$select->order($bsqlch->strdbcompat($order_by)." ".$order);
 		} else {
-			$select->order($bsqlch->strdbcompat("Job.JobId") . " DESC");
+			$select->order($bsqlch->strdbcompat("Job.JobId")." DESC");
 		}
 
 		if ($paginated) {
@@ -370,64 +367,63 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function getJobCountLast24HoursByStatus($status)
 	{
-		if($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
-                        $interval = "now() - interval 1 day";
-                }
-                elseif($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
-                        $interval = "now() - interval '1 day'";
-                }
+		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
+						$interval = "now() - interval 1 day";
+				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
+						$interval = "now() - interval '1 day'";
+				}
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 
-		if($status == "waiting")
+		if ($status=="waiting")
 		{
 			$select->where(
-				$bsqlch->strdbcompat("JobStatus") . " = 'F' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'S' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'm' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'M' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 's' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'j' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'c' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'd' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 't' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'p' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'q' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'C'"
+				$bsqlch->strdbcompat("JobStatus")." = 'F' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'S' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'm' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'M' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 's' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'j' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'c' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'd' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 't' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'p' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'q' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'C'"
 			);
 		}
 
-		if($status == "running")
+		if ($status=="running")
 		{
 			$select->where(
-				$bsqlch->strdbcompat("JobStatus") . " = 'R' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'l'"
+				$bsqlch->strdbcompat("JobStatus")." = 'R' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'l'"
 			);
 		}
 
-		if($status == "successful")
+		if ($status=="successful")
 		{
 			$select->where(
-				"(" .
-				$bsqlch->strdbcompat("JobStatus") . " = 'T' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'W' ) AND (" .
-				$bsqlch->strdbcompat("StartTime") . " >= " . $interval . " OR " .
-				$bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
+				"(".
+				$bsqlch->strdbcompat("JobStatus")." = 'T' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'W' ) AND (".
+				$bsqlch->strdbcompat("StartTime")." >= ".$interval." OR ".
+				$bsqlch->strdbcompat("EndTime")." >= ".$interval.")"
 			);
 		}
 
-		if($status == "unsuccessful")
+		if ($status=="unsuccessful")
 		{
 			$select->where(
-				"(" .
-				$bsqlch->strdbcompat("JobStatus") . " = 'A' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'E' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'e' OR " .
-				$bsqlch->strdbcompat("JobStatus") . " = 'f' ) AND (" .
-				$bsqlch->strdbcompat("StartTime") . " >= " . $interval . " OR " .
-				$bsqlch->strdbcompat("EndTime") . " >= " . $interval . ")"
+				"(".
+				$bsqlch->strdbcompat("JobStatus")." = 'A' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'E' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'e' OR ".
+				$bsqlch->strdbcompat("JobStatus")." = 'f' ) AND (".
+				$bsqlch->strdbcompat("StartTime")." >= ".$interval." OR ".
+				$bsqlch->strdbcompat("EndTime")." >= ".$interval.")"
 			);
 		}
 
@@ -465,11 +461,11 @@ class JobTable implements ServiceLocatorAwareInterface
 		$select = new Select();
 		$select->from($bsqlch->strdbcompat("Job"));
 		$select->where(
-			$bsqlch->strdbcompat("ClientId") . " = " . $id . " AND (" .
-			$bsqlch->strdbcompat("JobStatus") . " = 'T' OR " .
-			$bsqlch->strdbcompat("JobStatus") . " = 'W')"
+			$bsqlch->strdbcompat("ClientId")." = ".$id." AND (".
+			$bsqlch->strdbcompat("JobStatus")." = 'T' OR ".
+			$bsqlch->strdbcompat("JobStatus")." = 'W')"
 		);
-		$select->order($bsqlch->strdbcompat("JobId") . " DESC");
+		$select->order($bsqlch->strdbcompat("JobId")." DESC");
 		$select->limit(1);
 
 		$rowset = $this->tableGateway->selectWith($select);

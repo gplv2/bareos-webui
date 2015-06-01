@@ -2,6 +2,8 @@ build:
     dependencies:
         before:
             - mysql -uroot -e 'CREATE DATABASE bareos_test'
+            - tests/travis/config_db.sh
+            - zcat tests/travis/mysql/bacula-full.gz | mysql -uroot bareos_test
     tests:
         override:
             -
@@ -9,11 +11,6 @@ build:
                 coverage:
                     file: 'clover.xml'
                     format: 'php-clover'
-filter:
-    paths:
-        - 'tests/*'
-    excluded_paths:
-        - 'config/*'
 checks:
     php:
         code_rating: true

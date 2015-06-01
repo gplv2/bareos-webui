@@ -44,7 +44,7 @@ class Expiration extends AbstractHelper
 	public function __invoke($retention, $lastwritten, $volstatus)
 	{
 
-	if ($volstatus == "Used" || $volstatus == "Full") {
+	if ($volstatus=="Used" || $volstatus=="Full") {
 
 		if (empty($lastwritten)) {
 			return $this->result = "-";
@@ -62,15 +62,13 @@ class Expiration extends AbstractHelper
 
 			if ($this->result <= 0) {
 				return $this->result = "<span class='label label-danger'>expired</span>";
-			}
-			elseif ($this->result > 0) {
-				return "<span class='label label-warning'>expires in " . $this->result . " days</span>";
+			} elseif ($this->result > 0) {
+				return "<span class='label label-warning'>expires in ".$this->result." days</span>";
 			}
 
 		}
-	}
-	else {
-		return $this->result = round(($retention / 60 / 60 / 24), 2, PHP_ROUND_HALF_EVEN) . " days";
+	} else {
+		return $this->result = round(($retention / 60 / 60 / 24), 2, PHP_ROUND_HALF_EVEN)." days";
 	}
 
 	}

@@ -29,7 +29,6 @@ namespace Install\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Version\Version;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Sql\Sql;
 use Zend\Db\ResultSet\ResultSet;
 use Bareos\Db\Sql\BareosSqlCompatHelper;
@@ -123,8 +122,7 @@ class InstallController extends AbstractActionController
 		if (extension_loaded('PDO')) {
 			$pdo = "YES";
 						return $pdo;
-				}
-				else {
+				} else {
 			$pdo = "NO";
 						return $pdo;
 				}
@@ -142,21 +140,19 @@ class InstallController extends AbstractActionController
 
 	private function getIntlExtStatus()
 	{
-		if(extension_loaded('Intl')) {
+		if (extension_loaded('Intl')) {
 						return 0;
-				}
-				else {
+				} else {
 						return -1;
 				}
 	}
 
 	private function getInstalledIntlExt()
 	{
-		if(extension_loaded('Intl')) {
+		if (extension_loaded('Intl')) {
 						$intl = "YES";
 						return $intl;
-				}
-				else {
+				} else {
 						$intl = "NO";
 						return $intl;
 				}
@@ -172,10 +168,10 @@ class InstallController extends AbstractActionController
 
 	private function getDbDriverStatus()
 	{
-		if (self::getConfiguredDbDriver() == "Pdo_Pgsql" ||
-			self::getConfiguredDbDriver() == "Pdo_Mysql" ||
-			self::getConfiguredDbDriver() == "Mysqli" ||
-			self::getConfiguredDbDriver() == "Pgsql") {
+		if (self::getConfiguredDbDriver()=="Pdo_Pgsql" ||
+			self::getConfiguredDbDriver()=="Pdo_Mysql" ||
+			self::getConfiguredDbDriver()=="Mysqli" ||
+			self::getConfiguredDbDriver()=="Pgsql") {
 			return 0;
 		} else {
 			return -1;
@@ -192,7 +188,7 @@ class InstallController extends AbstractActionController
 
 	private function getDbHostStatus()
 	{
-		if (self::getConfiguredDbHost() != "") {
+		if (self::getConfiguredDbHost()!="") {
 			return 0;
 		} else {
 			return -1;
@@ -209,10 +205,9 @@ class InstallController extends AbstractActionController
 
 	private function getDbUserStatus()
 	{
-		if(self::getConfiguredDbUser() != "") {
+		if (self::getConfiguredDbUser()!="") {
 						return 0;
-				}
-				else {
+				} else {
 						return -1;
 				}
 	}
@@ -222,11 +217,10 @@ class InstallController extends AbstractActionController
 		$config = $this->getServiceLocator()->get('Config');
 		$adapter = array_keys($config['db']['adapters']);
 		$passwd = $config['db']['adapters'][$adapter[0]]['password'];
-		if ($passwd != "") {
+		if ($passwd!="") {
 			$passwd = "SET";
 					return $passwd;
-		}
-		else {
+		} else {
 			$passwd = "NOT SET";
 			return $passwd;
 		}
@@ -234,20 +228,19 @@ class InstallController extends AbstractActionController
 
 	private function getDbPasswordStatus()
 	{
-		if(self::getConfiguredDbPassword() == "SET") {
+		if (self::getConfiguredDbPassword()=="SET") {
 						return 0;
-				}
-				else {
+				} else {
 						return -1;
 				}
 	}
 
 	private function getDbConnectionStatus()
 	{
-		if (self::getDbDriverStatus() == 0 &&
-			self::getDbHostStatus() == 0 &&
-			self::getDbUserStatus() == 0 &&
-			self::getDbPasswordStatus() == 0
+		if (self::getDbDriverStatus()==0 &&
+			self::getDbHostStatus()==0 &&
+			self::getDbUserStatus()==0 &&
+			self::getDbPasswordStatus()==0
 			) {
 				try {
 					$config = $this->getServiceLocator()->get('Config');
@@ -256,20 +249,18 @@ class InstallController extends AbstractActionController
 					$dbAdapter = $this->getServiceLocator()->get($adapter[0]);
 					$connection = $dbAdapter->getDriver()->getConnection()->connect();
 					return 0;
-				}
-				catch (\Exception $e) {
+				} catch (\Exception $e) {
 					//echo $e->getMessage() . $e->getTraceAsString();
 					return -1;
 				}
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
 
 	private function getDbReadAccessStatus()
 	{
-		if (self::getDbConnectionStatus() == 0) {
+		if (self::getDbConnectionStatus()==0) {
 
 			try {
 				// no beauty, but will work for the moment
@@ -290,16 +281,13 @@ class InstallController extends AbstractActionController
 				$versionid = $result[0][$bsqlch->strdbcompat("VersionId")];
 				if (is_int($versionid) || $versionid >= 2001) {
 					return 0;
-				}
-				else {
+				} else {
 					return -1;
 				}
-			}
-			catch (\Exception $e) {
+			} catch (\Exception $e) {
 				return -1;
 			}
-		}
-		else {
+		} else {
 			return -1;
 		}
 	}
@@ -314,10 +302,9 @@ class InstallController extends AbstractActionController
 
 	private function getDirectorStatus()
 	{
-		if(self::getConfiguredDirector() != "") {
+		if (self::getConfiguredDirector()!="") {
 						return 0;
-				}
-				else {
+				} else {
 						return -1;
 				}
 
