@@ -23,14 +23,20 @@
  *
  */
 
-namespace Application\View\Helper;
+$title = 'Restore';
+$this->headTitle($title);
 
-use Zend\View\Helper\AbstractHelper;
+?>
 
-class JobDuration extends AbstractHelper
-{
-		public function __invoke($duration)
-		{
-		return sprintf('%02d:%02d:%02d', ($duration / 3600), ($duration / 60 % 60), $duration % 60);
-		}
-}
+<h3 class="text-muted"><?php echo $title; ?></h3>
+<hr />
+
+<div class="row">
+<div class="col-md-12">
+<pre style="font-size: 8pt;">
+<code>
+<?php echo $this->result; ?>
+</code>
+</pre>
+</div>
+</div>

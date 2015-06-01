@@ -60,10 +60,12 @@ class JobTable implements ServiceLocatorAwareInterface
 
 	public function fetchAll($paginated = false, $order_by = null, $order = null)
 	{
-		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
-			$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-		} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
-			$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
+		if($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+			$duration = new Expression("TIMEDIFF(EndTime, StartTime)");
+		}
+		elseif($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+			//$duration = new Expression("DATE_PART('hour', endtime::timestamp - starttime::timestamp)");
+			$duration = new Expression("endtime::timestamp - starttime::timestamp");
 		}
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
@@ -242,14 +244,15 @@ class JobTable implements ServiceLocatorAwareInterface
 	}
 
 	public function getLast24HoursSuccessfulJobs($paginated = false, $order_by = null, $order = null)
-	{
-		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
-						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-			$interval = "now() - interval 1 day";
-				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
-						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
-			$interval = "now() - interval '1 day'";
-				}
+    {
+        if($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+            $duration = new Expression("TIMEDIFF(EndTime, StartTime)");
+            $interval = "now() - interval 1 day";
+        }
+        elseif($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+            $duration = new Expression("endtime::timestamp - starttime::timestamp");
+            $interval = "now() - interval '1 day'";
+        }
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
@@ -304,14 +307,15 @@ class JobTable implements ServiceLocatorAwareInterface
 	}
 
 	public function getLast24HoursUnsuccessfulJobs($paginated = false, $order_by = null, $order = null)
-	{
-		if ($this->getDbDriverConfig()=="Pdo_Mysql" || $this->getDbDriverConfig()=="Mysqli") {
-						$duration = new Expression("TIMESTAMPDIFF(SECOND, StartTime, EndTime)");
-						$interval = "now() - interval 1 day";
-				} elseif ($this->getDbDriverConfig()=="Pdo_Pgsql" || $this->getDbDriverConfig()=="Pgsql") {
-						$duration = new Expression("DATE_PART('second', endtime::timestamp - starttime::timestamp)");
-						$interval = "now() - interval '1 day'";
-				}
+    {
+        if($this->getDbDriverConfig() == "Pdo_Mysql" || $this->getDbDriverConfig() == "Mysqli") {
+            $duration = new Expression("TIMEDIFF(EndTime, StartTime)");
+            $interval = "now() - interval 1 day";
+        }
+        elseif($this->getDbDriverConfig() == "Pdo_Pgsql" || $this->getDbDriverConfig() == "Pgsql") {
+            $duration = new Expression("endtime::timestamp - starttime::timestamp");
+            $interval = "now() - interval '1 day'";
+        }
 
 		$bsqlch = new BareosSqlCompatHelper($this->getDbDriverConfig());
 		$select = new Select();
